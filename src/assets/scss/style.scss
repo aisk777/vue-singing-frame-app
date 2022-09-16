@@ -3,3 +3,9 @@
 @import "mixin";
 @import "destyle.css";
 @import "foundation";
+
+.c-svg {
+  fill: currentColor;
+  display: inline-block;
+  vertical-align: top;
+}

@@ -18,14 +18,4 @@ export default class Sidebar extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
-.l-sidebar {
-  background-color: var(--subColor);
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 276px;
-  z-index: 99;
-}
-</style>
+<style scoped lang="scss"></style>
