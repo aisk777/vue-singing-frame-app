@@ -1,18 +1,21 @@
 <template>
   <Sidebar class="l-sidebar" />
   <div class="l-container">
-    <header class="l-header"></header>
+    <Header class="l-header" />
     <router-view class="l-main" />
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+
 import Sidebar from '@/components/Sidebar.vue';
+import Header from '@/components/Header.vue';
 
 @Options({
   components: {
-    Sidebar
+    Sidebar,
+    Header
   }
 })
 export default class App extends Vue {}
@@ -25,6 +28,7 @@ export default class App extends Vue {}
   top: 0;
   left: 0;
   bottom: 0;
+  padding: 0 40px;
   width: 276px;
   z-index: 99;
 }
