@@ -1,0 +1,80 @@
+@use "sass:math";
+
+// placeholder
+@mixin placeholder($color) {
+  ::-webkit-input-placeholder {
+    color: $color;
+  }
+  :-ms-input-placeholder {
+    color: $color;
+  }
+  ::-ms-input-placeholder {
+    color: $color;
+  }
+  ::placeholder {
+    color: $color;
+  }
+}
+
+// メディアクエリ
+@mixin pc() {
+  @media only screen and (min-width: #{$max_sp + 1}px) {
+    @content;
+  }
+}
+@mixin sp() {
+  @media only screen and (max-width: #{$max_sp}px) {
+    @content;
+  }
+}
+@mixin min($size) {
+  @if $size == tb {
+    @media only screen and (min-width: #{$max_tb + 1}px) {
+      @content;
+    }
+  }
+  @else {
+    @media only screen and (min-width: #{$size}px) {
+      @content;
+    }
+  }
+}
+@mixin max($size) {
+  @if $size == tb {
+    @media only screen and (max-width: #{$max_tb}px) {
+      @content;
+    }
+  }
+  @else {
+    @media only screen and (max-width: #{$size}px) {
+      @content;
+    }
+  }
+}
+
+// パーセント変換
+@function per($size, $standard) {
+  @return math.div($size, $standard) * 100%;
+}
+
+// settingで指定した幅を基準にvwを返す
+@function vw($size, $viewport: $vw_standard_width) {
+  $rate: math.div(100, $viewport);
+  @return $rate * $size * 1vw;
+}
+
+// vh変換
+@function vh($size, $viewport:1080) {
+  $rate: math.div(100, $viewport);
+  @return $rate * $size * 1vh;
+}
+
+// rem変換
+@function rem($px) {
+  @return $px * 0.1rem;
+}
+
+// div変換
+@function div($a, $b) {
+  @return math.div($a, $b);
+}

@@ -1,0 +1,97 @@
+@charset "utf-8";
+/*
+** リセット
+*/
+
+html {
+  background-color: var(--baseColor);
+  font-size: 62.5%;
+  word-break: break-all;
+  color: var(--textColor);
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+body {
+  font-family: "NotoSansJP", "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック体", YuGothic, "メイリオ", Meiryo, Osaka, sans-serif;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+}
+
+textarea {
+  resize: vertical;
+}
+
+// placeholder
+@include placeholder($placeholderColor);
+
+input,
+select,
+textarea {
+  outline: none;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  display: none !important;
+}
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+textarea,
+select {
+  font-size: 16px;
+}
+input[type="date"] {
+  &::-webkit-inner-spin-button,
+  &::-webkit-clear-button {
+    -webkit-appearance: none !important;
+  }
+  &::-webkit-calendar-picker-indicator {
+    display: none !important;
+  }
+}
+
+label,
+select {
+  cursor: pointer;
+}
+
+@font-face {
+  font-family: "NotoSansJP";
+  src: url('@/assets/fonts/NotoSansJP-Regular.woff') format("woff"),
+       url('@/assets/fonts/NotoSansJP-Regular.otf') format("opentype");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NotoSansJP";
+  src: url('@/assets/fonts/NotoSansJP-Bold.woff') format("woff"),
+       url('@/assets/fonts/NotoSansJP-Bold.otf') format("opentype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url('@/assets/fonts/Montserrat-Bold.woff') format("woff"),
+       url('@/assets/fonts/Montserrat-Bold.ttf') format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url('@/assets/fonts/Montserrat-Black.woff') format("woff"),
+       url('@/assets/fonts/Montserrat-Black.ttf') format("truetype");
+  font-weight: 900;
+  font-display: swap;
+}

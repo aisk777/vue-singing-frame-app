@@ -8,6 +8,13 @@ module.exports = defineConfig({
       preload: 'src/preload.ts'
     }
   },
+  // css: {
+  //   loaderOptions: {
+  //     scss: {
+  //       additionalData: '@import "@/assets/scss/style.scss";'
+  //     }
+  //   }
+  // },
   configureWebpack: {
     plugins: [
       new ESLintPlugin({
