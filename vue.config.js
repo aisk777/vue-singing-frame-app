@@ -8,13 +8,13 @@ module.exports = defineConfig({
       preload: 'src/preload.ts'
     }
   },
-  // css: {
-  //   loaderOptions: {
-  //     scss: {
-  //       additionalData: '@import "@/assets/scss/style.scss";'
-  //     }
-  //   }
-  // },
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: '@import "@/assets/scss/_variables.scss";'
+      }
+    }
+  },
   chainWebpack: (config) => {
     config.module.rules.delete('svg');
     config.module

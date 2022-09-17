@@ -1,19 +1,19 @@
 <template>
   <main class="main">
     <div class="main__head"></div>
-    <ul class="main__list">
-      <li class="main__list__item"></li>
-    </ul>
+    <RecordList />
     <BackImage class="main__bg" />
   </main>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import RecordList from '@/components/RecordList.vue';
 import BackImage from '@/assets/img/common/set_list.svg';
 
 @Options({
   components: {
+    RecordList,
     BackImage
   }
 })
@@ -32,15 +32,6 @@ export default class MainView extends Vue {}
     bottom: 0;
     left: 276px;
     z-index: -1;
-  }
-  &__list {
-    background-color: var(--backColor);
-    border: 1px solid var(--borderColor);
-    border-radius: 4px;
-    overflow: hidden;
-    &__item {
-      padding: 12px 16px;
-    }
   }
 }
 </style>
