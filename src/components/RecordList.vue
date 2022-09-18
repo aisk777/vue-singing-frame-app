@@ -61,7 +61,8 @@ export default class RecordList extends Vue {
   get dragOptions() {
     return {
       animation: 200,
-      group: 'sort'
+      group: 'sort',
+      chosenClass: 'is-chosen'
     };
   }
 }

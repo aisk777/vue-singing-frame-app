@@ -1,5 +1,5 @@
 <template>
-  <li class="c-list__item">
+  <li class="c-list__item" tabindex="-1">
     <div class="c-list__icon c-list__icon--handle"><iconHandle /></div>
     <p class="c-en c-list__index">0{{ index + 1 }}</p>
     <p class="c-list__name" ref="name">
@@ -58,10 +58,18 @@ export default class RecordListItem extends Vue {
 .c-list {
   &__item {
     background-color: var(--backColor);
+    cursor: pointer;
     display: grid;
     align-items: center;
     grid-template-columns: 26px 56px 1fr 26px auto;
     padding: 12px 16px;
+    transition: background-color 0.2s $easeInOutCubic;
+    &:not(.is-chosen):focus {
+      background-color: #fffff0;
+      .c-list__name > span {
+        animation: txtScroll 10s linear 0.3s both running infinite;
+      }
+    }
     & + & {
       position: relative;
       z-index: 0;
@@ -95,7 +103,6 @@ export default class RecordListItem extends Vue {
       display: block;
       width: max-content;
       backface-visibility: hidden;
-      animation: txtScroll 10s linear 5s both running infinite;
     }
   }
   &__icon {
@@ -127,6 +134,7 @@ export default class RecordListItem extends Vue {
   0% {
     transform: translate3d(0, 0, 0);
   }
+  90%,
   100% {
     transform: translate3d(var(--x), 0, 0);
   }
