@@ -1,9 +1,15 @@
 import { createStore } from 'vuex';
 
 export default createStore({
-  state: {},
+  state: {
+    isSidebar: true
+  },
   getters: {},
-  mutations: {},
+  mutations: {
+    isSidebar(state, payload) {
+      state.isSidebar = payload;
+    }
+  },
   actions: {},
   modules: {}
 });
