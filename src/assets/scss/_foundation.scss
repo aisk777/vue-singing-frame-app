@@ -64,6 +64,11 @@ select {
   cursor: pointer;
 }
 
+label {
+  display: inline-block;
+  vertical-align: top;
+}
+
 @font-face {
   font-family: "NotoSansJP";
   src: url('@/assets/fonts/NotoSansJP-Regular.woff') format("woff"),

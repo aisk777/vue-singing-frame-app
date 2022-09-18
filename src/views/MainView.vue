@@ -1,4 +1,5 @@
 <template>
+  <Header />
   <main class="main">
     <div class="main__head"></div>
     <RecordList />
@@ -13,11 +14,14 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+
+import Header from '@/components/Header.vue';
 import RecordList from '@/components/RecordList.vue';
 import BackImage from '@/assets/img/common/set_list.svg';
 
 @Options({
   components: {
+    Header,
     RecordList,
     BackImage
   }

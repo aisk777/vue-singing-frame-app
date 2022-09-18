@@ -1,28 +1,22 @@
 <template>
   <nav class="sidebar">
-    <div class="sidebar__logo">SINGING FRAME</div>
+    <h1 class="sidebar__logo">SINGING FRAME</h1>
     <ul class="sidebar__list">
       <li class="sidebar__item">
         <router-link to="/" class="sidebar__link">
-          <span class="c-en sidebar__link__en">
-            <TxtMain role="img" aria-label="MAIN" />
-          </span>
+          <span class="c-en sidebar__link__en">MAIN</span>
           <span class="sidebar__link__ja">メイン画面</span>
         </router-link>
       </li>
       <li class="sidebar__item">
         <router-link to="/history" class="sidebar__link">
-          <span class="c-en sidebar__link__en">
-            <TxtHistory role="img" aria-label="HISTORY" />
-          </span>
+          <span class="c-en sidebar__link__en">HISTORY</span>
           <span class="sidebar__link__ja">履歴</span>
         </router-link>
       </li>
       <li class="sidebar__item">
         <router-link to="/customize" class="sidebar__link">
-          <span class="c-en sidebar__link__en">
-            <TxtCustomize role="img" aria-label="CUSTOMIZE" />
-          </span>
+          <span class="c-en sidebar__link__en">CUSTOMIZE</span>
           <span class="sidebar__link__ja">カスタマイズ</span>
         </router-link>
       </li>
@@ -40,16 +34,8 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import TxtMain from '@/assets/img/common/txt_main.svg';
-import TxtHistory from '@/assets/img/common/txt_history.svg';
-import TxtCustomize from '@/assets/img/common/txt_customize.svg';
 
 @Options({
-  components: {
-    TxtMain,
-    TxtHistory,
-    TxtCustomize
-  },
   props: {
     msg: String
   }
@@ -73,7 +59,7 @@ export default class Sidebar extends Vue {
   }
   &__link {
     display: block;
-    padding: 24px 40px;
+    padding: 20px 40px;
     margin: 0 -40px;
     &.router-link-exact-active,
     &:hover {
@@ -94,6 +80,9 @@ export default class Sidebar extends Vue {
     &__en {
       color: var(--backColor);
       display: block;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
       transition: color 0.2s $easeInOutCubic;
     }
     &__ja {
@@ -103,7 +92,7 @@ export default class Sidebar extends Vue {
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.05em;
-      margin-top: 12px;
+      margin-top: 8px;
       padding-bottom: 1px;
       width: max-content;
       z-index: 0;

@@ -1,8 +1,7 @@
 <template>
   <Sidebar class="l-sidebar" />
   <div class="l-container">
-    <Header class="l-header" />
-    <router-view class="l-main" />
+    <router-view />
   </div>
 </template>
 
@@ -10,12 +9,10 @@
 import { Options, Vue } from 'vue-class-component';
 
 import Sidebar from '@/components/Sidebar.vue';
-import Header from '@/components/Header.vue';
 
 @Options({
   components: {
-    Sidebar,
-    Header
+    Sidebar
   }
 })
 export default class App extends Vue {}
@@ -37,13 +34,5 @@ export default class App extends Vue {}
   grid-template-rows: auto 1fr;
   padding-left: 276px;
   min-height: 100vh;
-}
-.l-header {
-  position: sticky;
-  top: 0;
-  background-color: var(--backColor);
-  padding: 24px 32px;
-  box-shadow: 0 4px 8px 0 rgba(#000, 0.04);
-  z-index: 1;
 }
 </style>

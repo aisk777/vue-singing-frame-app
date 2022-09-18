@@ -1,7 +1,7 @@
 'use strict';
 import { app, protocol, BrowserWindow, ipcMain } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
-import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer';
+import installExtension from 'electron-devtools-installer';
 import path from 'path';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -16,7 +16,7 @@ protocol.registerSchemesAsPrivileged([
 async function createWindow() {
   const win = new BrowserWindow({
     width: 1200,
-    height: 675,
+    height: 700,
     resizable: false,
     webPreferences: {
       sandbox: true,
@@ -46,7 +46,10 @@ app.on('activate', () => {
 app.on('ready', async () => {
   if (isDevelopment && !process.env.IS_TEST) {
     try {
-      await installExtension(VUEJS3_DEVTOOLS);
+      await installExtension({
+        id: 'nhdogjmejiglipccpnnnanhbledajbpd',
+        electron: '>=1.2.1'
+      });
     } catch (e: any) {
       console.error('Vue Devtools failed to install:', e.toString());
     }

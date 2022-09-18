@@ -77,7 +77,7 @@ export default class RecordList extends Vue {
 .c-list {
   background-color: var(--backColor);
   border: 1px solid var(--borderColor);
-  border-radius: 4px;
+  border-radius: 6px;
   overflow: hidden;
   min-height: 50px;
 }
