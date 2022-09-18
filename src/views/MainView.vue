@@ -2,6 +2,11 @@
   <main class="main">
     <div class="main__head"></div>
     <RecordList />
+    <div class="main__clear">
+      <button type="button" class="main__clear__btn" @click="onClear">
+        内容を破棄してリセット
+      </button>
+    </div>
     <BackImage class="main__bg" />
   </main>
 </template>
@@ -17,7 +22,12 @@ import BackImage from '@/assets/img/common/set_list.svg';
     BackImage
   }
 })
-export default class MainView extends Vue {}
+export default class MainView extends Vue {
+  // 内容を全て破棄
+  onClear() {
+    console.log(1);
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -25,6 +35,19 @@ export default class MainView extends Vue {}
   position: relative;
   padding: 24px 32px;
   z-index: 0;
+  &__clear {
+    margin-top: 16px;
+    text-align: right;
+    &__btn {
+      color: var(--primaryColor);
+      border-bottom: 1px solid currentColor;
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 0;
+      letter-spacing: 0.05em;
+    }
+  }
   &__bg {
     color: var(--subColor);
     opacity: 0.1;

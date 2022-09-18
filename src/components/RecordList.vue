@@ -1,14 +1,19 @@
 <template>
   <draggable
     class="c-list"
-    tag="ul"
+    tag="transition-group"
+    :component-data="{ tag: 'ul', name: 'list' }"
     handle=".c-list__icon--handle"
     v-bind="dragOptions"
     v-model="list"
     item-key="order"
   >
     <template #item="{ element, index }">
-      <RecordListItem :item="element" :index="index" />
+      <RecordListItem
+        :item="element"
+        :index="index"
+        :digits="`${list.length}`.length"
+      />
     </template>
   </draggable>
 </template>
@@ -75,5 +80,15 @@ export default class RecordList extends Vue {
   border-radius: 4px;
   overflow: hidden;
   min-height: 50px;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: 0.2s $easeInOutCubic;
+  transition-property: opacity, transform;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(-16px);
 }
 </style>

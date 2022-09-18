@@ -1,16 +1,35 @@
 <template>
   <li class="c-list__item" tabindex="-1">
     <div class="c-list__icon c-list__icon--handle"><iconHandle /></div>
-    <p class="c-en c-list__index">0{{ index + 1 }}</p>
-    <p class="c-list__name" ref="name">
+    <p class="c-en c-list__index">{{ indexFormat }}</p>
+    <p class="c-list__name" ref="name" v-if="!isEdit">
       <span ref="nameInner" :style="{ '--x': `${this.x}px` }">{{
         item.name
       }}</span>
     </p>
-    <button type="button" class="c-list__icon c-list__icon--pen">
+    <div class="c-list__edit" v-else>
+      <input
+        type="text"
+        class="c-list__edit__input"
+        :value="item.name"
+        @keydown.enter.prevent="onConfirm"
+        @blur="onBlur"
+        ref="edit"
+      />
+    </div>
+    <button
+      type="button"
+      class="c-list__icon c-list__icon--pen"
+      @click="onEdit"
+      :disabled="isEdit"
+    >
       <iconPen />
     </button>
-    <button type="button" class="c-list__icon c-list__icon--delete">
+    <button
+      type="button"
+      class="c-list__icon c-list__icon--delete"
+      @click="onDelete"
+    >
       <iconDelete />
     </button>
   </li>
@@ -36,20 +55,61 @@ import iconDelete from '@/assets/img/icon/icon_delete.svg';
     index: {
       type: Number,
       required: true
+    },
+    digits: {
+      type: Number,
+      required: true
     }
   }
 })
 export default class RecordListItem extends Vue {
+  digits!: number;
+  index!: number;
   x = 0;
+  isEdit = false;
 
   mounted() {
-    this.setAnim();
+    this.setVariable();
   }
 
-  setAnim() {
+  // CSS変数を更新
+  setVariable() {
     const width = (this.$refs.name as HTMLElement).clientWidth;
     const innerW = (this.$refs.nameInner as HTMLElement).clientWidth;
     this.x = -Math.max(0, innerW - width);
+  }
+
+  // 編集開始
+  onEdit() {
+    this.isEdit = true;
+    this.$nextTick(() => (this.$refs.edit as HTMLInputElement).select());
+  }
+
+  // 編集の選択解除
+  onBlur() {
+    this.isEdit = false;
+    // テキストの更新
+  }
+
+  // 編集の確定
+  onConfirm(e: any) {
+    if (e.isComposing) return;
+    this.isEdit = false;
+    // テキストの更新
+  }
+
+  // リストの削除
+  onDelete() {
+    console.log(1);
+  }
+
+  // 数値の変換
+  get indexFormat() {
+    const digits = this.digits === 1 ? this.digits + 1 : this.digits;
+    const numberFormat = new Intl.NumberFormat('ja', {
+      minimumIntegerDigits: digits
+    });
+    return numberFormat.format(this.index + 1);
   }
 }
 </script>
@@ -96,13 +156,25 @@ export default class RecordListItem extends Vue {
   &__name {
     font-size: 14px;
     letter-spacing: 0.05em;
-    margin-right: 16px;
     line-height: 26px;
+    margin-right: 16px;
     overflow: hidden;
     > span {
       display: block;
       width: max-content;
       backface-visibility: hidden;
+    }
+  }
+  &__edit {
+    margin: 0 8px 0 -8px;
+    &__input {
+      background-color: var(--baseColor);
+      border-radius: 4px;
+      font-size: 14px;
+      width: 100%;
+      height: 26px;
+      padding: 0 8px;
+      letter-spacing: 0.05em;
     }
   }
   &__icon {
@@ -122,6 +194,12 @@ export default class RecordListItem extends Vue {
       transition: background-color 0.2s $easeInOutCubic;
       &:hover {
         background-color: rgba(#000, 0.06);
+      }
+    }
+    &--pen {
+      &:disabled {
+        background-color: rgba(#000, 0.06);
+        pointer-events: none;
       }
     }
     &--delete {
