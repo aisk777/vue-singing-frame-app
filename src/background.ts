@@ -1,7 +1,12 @@
 'use strict';
 import { app, protocol, ipcMain } from 'electron';
+import db from '@/main/db';
 import browser from '@/main/browser';
 
+// (async () => {
+//   const data = await db.Main.insertData({ name: 'aaa' });
+//   console.log(data);
+// })();
 
 // サンドボックスを有効化
 app.enableSandbox();

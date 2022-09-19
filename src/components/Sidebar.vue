@@ -35,14 +35,8 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 
-@Options({
-  props: {
-    msg: String
-  }
-})
-export default class Sidebar extends Vue {
-  msg!: string;
-}
+@Options({})
+export default class Sidebar extends Vue {}
 </script>
 
 <style scoped lang="scss">

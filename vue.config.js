@@ -3,9 +3,13 @@ const { defineConfig } = require('@vue/cli-service');
 
 module.exports = defineConfig({
   transpileDependencies: true,
+  pages: {
+    index: './src/renderer.ts',
+    preview: './src/preview/renderer.ts'
+  },
   pluginOptions: {
     electronBuilder: {
-      preload: 'src/preload.ts'
+      preload: './src/main/preload.ts'
     }
   },
   css: {

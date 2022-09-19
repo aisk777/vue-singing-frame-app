@@ -1,5 +1,5 @@
 <template>
-  <Sidebar class="l-sidebar" v-if="$store.state.isSidebar" />
+  <Sidebar class="l-sidebar" />
   <div class="l-container">
     <router-view />
   </div>

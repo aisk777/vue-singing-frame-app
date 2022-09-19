@@ -22,14 +22,15 @@ const browser: any = {
       }
     });
 
-    // サブ
+    // プレビュー
     this.winPreview = new BrowserWindow({
       title: 'Preview | SINGING FRAME',
+      show: false,
       width: 580,
       height: 800,
       x: size.width - 580,
       y: size.height - 800,
-      // transparent: true,
+      transparent: true,
       frame: false,
       resizable: false,
       hasShadow: false,
@@ -44,14 +45,18 @@ const browser: any = {
       await Promise.all([
         this.winMain.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string),
         this.winPreview.loadURL(
-          `${process.env.WEBPACK_DEV_SERVER_URL}#/preview` as string
+          `${process.env.WEBPACK_DEV_SERVER_URL}preview` as string
         )
       ]);
-      if (!process.env.IS_TEST) this.winMain.webContents.openDevTools();
+      // if (!process.env.IS_TEST) this.winMain.webContents.openDevTools();
     } else {
       createProtocol('app');
       this.winMain.loadURL('app://./index.html');
+      this.winPreview.loadURL('app://./preview.html');
     }
+
+    // メインウィンドウが閉じた時にプレビューも閉じる
+    this.winMain.on('close', () => this.winPreview.close());
   },
 
   windowAllClosed() {

@@ -16,11 +16,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/customize',
     name: 'customize',
     component: () => import('../views/CustomizeView.vue')
-  },
-  {
-    path: '/preview',
-    name: 'preview',
-    component: () => import('../views/Preview.vue')
   }
 ];
 
