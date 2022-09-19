@@ -2,7 +2,7 @@
   <Header />
   <main class="main">
     <div class="main__head"></div>
-    <RecordList />
+    <RecordList :records="records" @update-db="onUpdate" />
     <div class="main__clear">
       <button type="button" class="main__clear__btn" @click="onClear">
         内容を破棄してリセット
@@ -27,6 +27,30 @@ import BackImage from '@/assets/img/common/set_list.svg';
   }
 })
 export default class MainView extends Vue {
+  $db!: any;
+
+  get records() {
+    return this.$store.state.main_record;
+  }
+
+  // レコードを更新
+  async onUpdate(value: any) {
+    const cloneValue = value.map((x: any) => {
+      return { ...x };
+    });
+
+    // ストアを更新
+    this.$db.storeDispatch('main_record', cloneValue);
+
+    // DBを一括更新
+    // const promise = cloneValue.map((record: any) => {
+    //   const query = { ...record };
+    //   delete query._id;
+    //   return this.$db.recordUpdateData({ _id: record._id }, query);
+    // });
+    // await Promise.all(promise);
+  }
+
   // 内容を全て破棄
   onClear() {
     console.log(1);

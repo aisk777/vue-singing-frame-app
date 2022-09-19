@@ -4,14 +4,14 @@
     <p class="c-en c-list__index">{{ indexFormat }}</p>
     <p class="c-list__name" ref="name" v-if="!isEdit">
       <span ref="nameInner" :style="{ '--x': `${this.x}px` }">{{
-        item.name
+        item.value
       }}</span>
     </p>
     <div class="c-list__edit" v-else>
       <input
         type="text"
         class="c-list__edit__input"
-        :value="item.name"
+        v-model="inputValue"
         @keydown.enter.prevent="onConfirm"
         @blur="onBlur"
         ref="edit"
@@ -65,8 +65,19 @@ import iconDelete from '@/assets/img/icon/icon_delete.svg';
 export default class RecordListItem extends Vue {
   digits!: number;
   index!: number;
+  item!: any;
+  $db!: any;
   x = 0;
   isEdit = false;
+  tmpInputValue = '';
+
+  get inputValue() {
+    return this.item.value;
+  }
+
+  set inputValue(value) {
+    this.tmpInputValue = value;
+  }
 
   mounted() {
     this.setVariable();
@@ -88,14 +99,23 @@ export default class RecordListItem extends Vue {
   // 編集の選択解除
   onBlur() {
     this.isEdit = false;
-    // テキストの更新
+    this.onUpdate();
   }
 
   // 編集の確定
   onConfirm(e: any) {
     if (e.isComposing) return;
     this.isEdit = false;
-    // テキストの更新
+  }
+
+  // テキストの更新
+  async onUpdate() {
+    if (this.tmpInputValue === '') return;
+    await this.$db.recordUpdateData(
+      { _id: this.item._id },
+      { ...this.item, value: this.tmpInputValue }
+    );
+    this.tmpInputValue = '';
   }
 
   // リストの削除

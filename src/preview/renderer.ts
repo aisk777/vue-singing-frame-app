@@ -10,5 +10,13 @@ const app = createApp(App);
 // Storeを有効化
 app.use(store);
 
+// DBを接続
+app.config.globalProperties.$db = window.db;
+
+// ストアをリンク
+app.config.globalProperties.$db.storeSync((_: any, mutation: any) =>
+  store.commit('sync', mutation)
+);
+
 // 実行
 app.mount('#app');

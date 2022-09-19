@@ -21,27 +21,33 @@ class Database {
   // 値の挿入
   async insertData(payload: any) {
     await this.db.insert(payload);
-    return this.getAllData;
   }
 
   // 値の更新
-  async updateData(field_name: any, payload: any) {
-    await this.db.update(
-      { field_name: field_name },
-      { field_name: field_name, contents: payload },
-      { upsert: true }
-    );
-    // 圧縮
-    this.db.persistence.compactDatafile();
-    return this.getAllData;
+  async updateData(query: any, payload: any) {
+    await this.db.update(query, payload, { upsert: true });
+    // @ts-ignore
+    this.db.compactDatafile();
+  }
+
+  // 検索
+  async findOneData(query: any) {
+    return await this.db.findOne(query);
+  }
+
+  // 複数検索
+  async findData(query: any, sort: any) {
+    const db = this.db.find(query);
+    return sort ? await db.sort(sort) : await db;
   }
 
   // 全件取得
-  get getAllData() {
-    return this.db.find({});
+  async getAllData() {
+    return await this.db.find({});
   }
 }
 
 export default {
-  Main: new Database(Datastore.create(path.join(__dirname, 'db/main.db')))
+  Main: new Database(Datastore.create(path.join(__dirname, 'db/main.db'))),
+  Record: new Database(Datastore.create(path.join(__dirname, 'db/record.db')))
 };

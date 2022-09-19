@@ -5,14 +5,14 @@
     :component-data="{ tag: 'ul', name: 'list' }"
     handle=".c-list__icon--handle"
     v-bind="dragOptions"
-    v-model="list"
+    v-model="recordsDraggable"
     item-key="order"
   >
     <template #item="{ element, index }">
       <RecordListItem
         :item="element"
         :index="index"
-        :digits="`${list.length}`.length"
+        :digits="`${recordsDraggable.length}`.length"
       />
     </template>
   </draggable>
@@ -24,44 +24,26 @@ import draggable from 'vuedraggable';
 import RecordListItem from '@/components/RecordListItem.vue';
 
 @Options({
-  components: { draggable, RecordListItem }
+  components: { draggable, RecordListItem },
+  props: {
+    records: Array
+  }
 })
 export default class RecordList extends Vue {
+  records?: any;
   isDrag = false;
-  list = [
-    {
-      name: 'ここにタイトルが入ります。ここにタイトルが入ります。ここにタイトルが入ります。',
-      order: 1
-    },
-    {
-      name: 'ここにタイトルが入ります。ここにタイトルが入ります。ここにタイトルが入ります。',
-      order: 3
-    },
-    {
-      name: 'ここにタイトルが入ります。ここにタイトルが入ります。ここにタイトルが入ります。',
-      order: 4
-    },
-    {
-      name: 'ここにタイトルが入ります。ここにタイトルが入ります。ここにタイトルが入ります。',
-      order: 5
-    },
-    {
-      name: 'ここにタイトルが入ります。ここにタイトルが入ります。ここにタイトルが入ります。',
-      order: 2
-    },
-    {
-      name: 'ここにタイトルが入ります。ここにタイトルが入ります。ここにタイトルが入ります。',
-      order: 6
-    },
-    {
-      name: 'ここにタイトルが入ります。ここにタイトルが入ります。ここにタイトルが入ります。',
-      order: 7
-    },
-    {
-      name: 'ここにタイトルが入ります。ここにタイトルが入ります。ここにタイトルが入ります。ここにタイトルが入ります。ここにタイトルが入ります。ここにタイトルが入ります。',
-      order: 8
-    }
-  ];
+
+  get recordsDraggable() {
+    return this.records;
+  }
+
+  set recordsDraggable(value: any) {
+    // orderの値を更新
+    const newArray = value.map((x: any, index: number) => {
+      return { ...x, order: index };
+    });
+    this.$emit('update-db', newArray);
+  }
 
   get dragOptions() {
     return {

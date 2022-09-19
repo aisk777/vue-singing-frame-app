@@ -1,12 +1,9 @@
 'use strict';
+
 import { app, protocol, ipcMain } from 'electron';
 import db from '@/main/db';
+import store from '@/main/store';
 import browser from '@/main/browser';
-
-// (async () => {
-//   const data = await db.Main.insertData({ name: 'aaa' });
-//   console.log(data);
-// })();
 
 // サンドボックスを有効化
 app.enableSandbox();
@@ -34,3 +31,22 @@ if (browser.isDevelopment) {
 /*
  ** IPC通信
  */
+ipcMain.handle('store-dispatch', (e: any, field_name: any, payload: any) => {
+  store.dispatch(field_name, payload);
+});
+
+ipcMain.handle('main-update-data', async (e: any, field_name: any, payload: any) => {
+  return await db.Main.updateData({ field_name: field_name }, { field_name: field_name, ...payload });
+});
+
+ipcMain.handle('record-insert-data', async (e: any, doc: any) => {
+  return await db.Record.insertData(doc);
+});
+
+ipcMain.handle('record-update-data', async (e: any, query: any, payload: any) => {
+  return await db.Record.updateData(query, payload);
+});
+
+ipcMain.handle('record-get-data', async (e: any, query: any, sort: any) => {
+  return await db.Record.findData(query, sort);
+});

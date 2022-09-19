@@ -2,6 +2,8 @@ import { app, BrowserWindow, screen } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import installExtension from 'electron-devtools-installer';
 import path from 'path';
+import db from '@/main/db';
+import store from '@/main/store';
 
 const browser: any = {
   isDevelopment: process.env.NODE_ENV !== 'production',
@@ -37,7 +39,8 @@ const browser: any = {
       roundedCorners: false,
       webPreferences: {
         nodeIntegration: false,
-        contextIsolation: true
+        contextIsolation: true,
+        preload: path.join(__dirname, 'preload.js')
       }
     });
 
@@ -57,6 +60,24 @@ const browser: any = {
 
     // メインウィンドウが閉じた時にプレビューも閉じる
     this.winMain.on('close', () => this.winPreview.close());
+
+    // DBの値をストアに送る
+    this.winMain.webContents.on('dom-ready', () => this.initStore());
+    this.winPreview.webContents.on('dom-ready', () => this.initStore());
+  },
+
+  async initStore() {
+    try {
+      const [mainData, mainRecordData] = await Promise.all([
+        db.Main.getAllData(),
+        db.Record.findData({ isHistory: false }, { order: 1 })
+      ]);
+      // ストアの値を更新
+      mainData.forEach((doc: any) => store.dispatch(doc.field_name, doc));
+      store.dispatch('main_record', mainRecordData);
+    } catch(e) {
+      console.error(e);
+    }
   },
 
   windowAllClosed() {
@@ -79,6 +100,7 @@ const browser: any = {
       }
     }
     this.createWindow();
+    this.initStore();
   }
 };
 export default browser;

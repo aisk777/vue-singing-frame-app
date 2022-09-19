@@ -9,6 +9,7 @@
         type="text"
         class="main__singing__input"
         placeholder="タイトルを入力してください"
+        v-model="now_singing"
         @keydown.enter.shift.exact.prevent="onDrop"
       />
     </div>
@@ -34,9 +35,40 @@ import iconDrop from '@/assets/img/icon/arrow_drop.svg';
   }
 })
 export default class HeadingSinging extends Vue {
-  // ドロップ処理
-  onDrop() {
-    console.log(1);
+  $db!: any;
+
+  get now_singing() {
+    return this.$store.state.now_singing;
+  }
+
+  // 変更を同期
+  set now_singing(value: string) {
+    this.$db.storeDispatch('now_singing', { value: value });
+    this.$db.mainUpdateData('now_singing', { value: value });
+  }
+
+  async onDrop() {
+    if (this.now_singing === '') return;
+
+    // レコードを追加
+    this.$db.recordInsertData({
+      order: this.$store.state.main_record.length,
+      value: this.now_singing,
+      isHistory: false,
+      history_id: null
+    });
+
+    // DBから取得しストアを更新
+    try {
+      const data = await this.$db.recordGetData(
+        { isHistory: false },
+        { order: 1 }
+      );
+      this.$db.storeDispatch('main_record', data);
+      this.now_singing = '';
+    } catch (e) {
+      console.error(e);
+    }
   }
 }
 </script>
