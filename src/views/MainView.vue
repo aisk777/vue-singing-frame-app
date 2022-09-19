@@ -43,12 +43,12 @@ export default class MainView extends Vue {
     this.$db.storeDispatch('main_record', cloneValue);
 
     // DBを一括更新
-    // const promise = cloneValue.map((record: any) => {
-    //   const query = { ...record };
-    //   delete query._id;
-    //   return this.$db.recordUpdateData({ _id: record._id }, query);
-    // });
-    // await Promise.all(promise);
+    const promise = cloneValue.map((record: any) => {
+      const query = { ...record };
+      delete query._id;
+      return this.$db.recordUpdateData({ _id: record._id }, query);
+    });
+    await Promise.all(promise);
   }
 
   // 内容を全て破棄

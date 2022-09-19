@@ -75,7 +75,7 @@ const browser: any = {
       // ストアの値を更新
       mainData.forEach((doc: any) => store.dispatch(doc.field_name, doc));
       store.dispatch('main_record', mainRecordData);
-    } catch(e) {
+    } catch (e) {
       console.error(e);
     }
   },

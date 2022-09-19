@@ -144,7 +144,7 @@ export default class RecordListItem extends Vue {
     grid-template-columns: 26px 56px 1fr 26px auto;
     padding: 12px 16px;
     transition: background-color 0.2s $easeInOutCubic;
-    &:not(.is-chosen):focus {
+    &:not(.is-chosen):not(:active):focus {
       background-color: #fffff0;
       .c-list__name > span {
         animation: txtScroll 10s linear 0.3s both running infinite;
