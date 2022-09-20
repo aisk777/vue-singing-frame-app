@@ -9,7 +9,7 @@ module.exports = defineConfig({
   },
   pluginOptions: {
     electronBuilder: {
-      preload: './src/main/preload.ts'
+      preload: './src/background/preload.ts'
     }
   },
   css: {

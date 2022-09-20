@@ -1,5 +1,5 @@
 <template>
-  <Header />
+  <Heading />
   <main class="main">
     <div class="main__head"></div>
     <RecordList :records="records" @update-db="onUpdate" />
@@ -13,49 +13,54 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-
-import Header from '@/components/Header.vue';
+import { defineComponent, computed, inject } from 'vue';
+import { useStore } from 'vuex';
+import { key } from '@/@types/ipc-db';
+import Heading from '@/components/Heading.vue';
 import RecordList from '@/components/RecordList.vue';
 import BackImage from '@/assets/img/common/set_list.svg';
 
-@Options({
+export default defineComponent({
+  name: 'MainView',
   components: {
-    Header,
+    Heading,
     RecordList,
     BackImage
+  },
+  setup() {
+    const store = useStore();
+    const $db = inject(key);
+
+    if (!$db) throw new Error('NO DB');
+
+    const records = computed(() => store.state.main_record);
+
+    const onUpdate = async (value: [any]) => {
+      const cloneValue = value.map((x: any) => {
+        return { ...x };
+      });
+
+      $db.storeDispatch('main_record', cloneValue);
+
+      const promise = cloneValue.map((record: any) => {
+        const query = { ...record };
+        delete query._id;
+        return $db.recordUpdateData({ _id: record._id }, query);
+      });
+      await Promise.all(promise);
+    };
+
+    const onClear = () => {
+      console.log(1);
+    };
+
+    return {
+      records,
+      onUpdate,
+      onClear
+    };
   }
-})
-export default class MainView extends Vue {
-  $db!: any;
-
-  get records() {
-    return this.$store.state.main_record;
-  }
-
-  // レコードを更新
-  async onUpdate(value: any) {
-    const cloneValue = value.map((x: any) => {
-      return { ...x };
-    });
-
-    // ストアを更新
-    this.$db.storeDispatch('main_record', cloneValue);
-
-    // DBを一括更新
-    const promise = cloneValue.map((record: any) => {
-      const query = { ...record };
-      delete query._id;
-      return this.$db.recordUpdateData({ _id: record._id }, query);
-    });
-    await Promise.all(promise);
-  }
-
-  // 内容を全て破棄
-  onClear() {
-    console.log(1);
-  }
-}
+});
 </script>
 
 <style scoped lang="scss">

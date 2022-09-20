@@ -6,18 +6,17 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-
+import { defineComponent } from 'vue';
 import HeadingNav from '@/components/HeadingNav.vue';
 import HeadingSinging from '@/components/HeadingSinging.vue';
 
-@Options({
+export default defineComponent({
+  name: 'Heading',
   components: {
     HeadingNav,
     HeadingSinging
   }
-})
-export default class Header extends Vue {}
+});
 </script>
 
 <style scoped lang="scss">

@@ -3,11 +3,9 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-// import HelloWorld from '@/components/HelloWorld.vue';
+import { defineComponent } from 'vue';
 
-@Options({
-  components: {}
-})
-export default class HistoryView extends Vue {}
+export default defineComponent({
+  name: 'HistoryView'
+});
 </script>

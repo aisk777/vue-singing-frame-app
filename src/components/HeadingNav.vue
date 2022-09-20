@@ -28,20 +28,19 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-
+import { defineComponent } from 'vue';
 import iconLineSingle from '@/assets/img/icon/icon_line-single.svg';
 import iconLineDouble from '@/assets/img/icon/icon_line-double.svg';
 import iconStart from '@/assets/img/icon/icon_start.svg';
 
-@Options({
+export default defineComponent({
+  name: 'HeadingNav',
   components: {
     iconLineSingle,
     iconLineDouble,
     iconStart
   }
-})
-export default class HeadingNav extends Vue {}
+});
 </script>
 
 <style scoped lang="scss">

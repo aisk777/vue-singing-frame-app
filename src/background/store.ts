@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import browser from '@/main/browser';
+import browser from './browser';
 
 // レンダラーのストアを更新
 const webContents = (store: any) => {

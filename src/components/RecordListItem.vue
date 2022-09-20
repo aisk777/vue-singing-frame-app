@@ -2,8 +2,8 @@
   <li class="c-list__item" tabindex="-1">
     <div class="c-list__icon c-list__icon--handle"><iconHandle /></div>
     <p class="c-en c-list__index">{{ indexFormat }}</p>
-    <p class="c-list__name" ref="name" v-if="!isEdit">
-      <span ref="nameInner" :style="{ '--x': `${this.x}px` }">{{
+    <p class="c-list__name" ref="nameRef" v-if="!isEdit">
+      <span ref="nameInnerRef" :style="{ '--x': `${this.x}px` }">{{
         item.value
       }}</span>
     </p>
@@ -14,7 +14,7 @@
         v-model="inputValue"
         @keydown.enter.prevent="onConfirm"
         @blur="onBlur"
-        ref="edit"
+        ref="editRef"
       />
     </div>
     <button
@@ -36,12 +36,22 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import {
+  defineComponent,
+  ref,
+  computed,
+  onMounted,
+  nextTick,
+  inject
+} from 'vue';
+import { key } from '@/@types/ipc-db';
+
 import iconHandle from '@/assets/img/icon/icon_handle.svg';
 import iconPen from '@/assets/img/icon/icon_pen.svg';
 import iconDelete from '@/assets/img/icon/icon_delete.svg';
 
-@Options({
+export default defineComponent({
+  name: 'RecordListItem',
   components: {
     iconHandle,
     iconPen,
@@ -60,78 +70,95 @@ import iconDelete from '@/assets/img/icon/icon_delete.svg';
       type: Number,
       required: true
     }
-  }
-})
-export default class RecordListItem extends Vue {
-  digits!: number;
-  index!: number;
-  item!: any;
-  $db!: any;
-  x = 0;
-  isEdit = false;
-  tmpInputValue = '';
+  },
+  setup(props) {
+    const nameRef = ref<HTMLElement>();
+    const nameInnerRef = ref<HTMLElement>();
+    const editRef = ref<HTMLInputElement>();
 
-  get inputValue() {
-    return this.item.value;
-  }
+    const x = ref(0);
+    const isEdit = ref(false);
+    const tmpInputValue = ref('');
 
-  set inputValue(value) {
-    this.tmpInputValue = value;
-  }
+    const $db = inject(key);
 
-  mounted() {
-    this.setVariable();
-  }
+    if (!$db) throw new Error('NO DB');
 
-  // CSS変数を更新
-  setVariable() {
-    const width = (this.$refs.name as HTMLElement).clientWidth;
-    const innerW = (this.$refs.nameInner as HTMLElement).clientWidth;
-    this.x = -Math.max(0, innerW - width);
-  }
-
-  // 編集開始
-  onEdit() {
-    this.isEdit = true;
-    this.$nextTick(() => (this.$refs.edit as HTMLInputElement).select());
-  }
-
-  // 編集の選択解除
-  onBlur() {
-    this.isEdit = false;
-    this.onUpdate();
-  }
-
-  // 編集の確定
-  onConfirm(e: any) {
-    if (e.isComposing) return;
-    this.isEdit = false;
-  }
-
-  // テキストの更新
-  async onUpdate() {
-    if (this.tmpInputValue === '') return;
-    await this.$db.recordUpdateData(
-      { _id: this.item._id },
-      { ...this.item, value: this.tmpInputValue }
-    );
-    this.tmpInputValue = '';
-  }
-
-  // リストの削除
-  onDelete() {
-    console.log(1);
-  }
-
-  // 数値の変換
-  get indexFormat() {
-    const digits = this.digits === 1 ? this.digits + 1 : this.digits;
-    const numberFormat = new Intl.NumberFormat('ja', {
-      minimumIntegerDigits: digits
+    // 編集時のタイトルを一時的に保持
+    const inputValue = computed({
+      get: () => props.item.value,
+      set: (value: string) => (tmpInputValue.value = value)
     });
-    return numberFormat.format(this.index + 1);
+
+    // CSS変数を更新
+    const setVariable = () => {
+      if (!nameRef.value || !nameInnerRef.value) return;
+
+      const width = nameRef.value.clientWidth;
+      const innerW = nameInnerRef.value.clientWidth;
+      x.value = -Math.max(0, innerW - width);
+    };
+
+    // テキストの更新
+    const onUpdate = async () => {
+      if (tmpInputValue.value === '') return;
+      await $db.recordUpdateData(
+        { _id: props.item._id },
+        { ...props.item, value: tmpInputValue }
+      );
+      tmpInputValue.value = '';
+    };
+
+    // 編集開始
+    const onEdit = () => {
+      isEdit.value = true;
+      nextTick(() => {
+        if (editRef.value) editRef.value.select();
+      });
+    };
+
+    // 編集の選択解除
+    const onBlur = () => {
+      isEdit.value = false;
+      onUpdate();
+    };
+
+    // 編集の確定
+    const onConfirm = (e: KeyboardEvent) => {
+      if (!e.isComposing) isEdit.value = false;
+    };
+
+    // リストの削除
+    const onDelete = () => {
+      console.log(1);
+    };
+
+    // 数値の変換
+    const indexFormat = computed(() => {
+      const digits = props.digits === 1 ? props.digits + 1 : props.digits;
+      const numberFormat = new Intl.NumberFormat('ja', {
+        minimumIntegerDigits: digits
+      });
+      return numberFormat.format(props.index + 1);
+    });
+
+    onMounted(() => setVariable());
+
+    return {
+      nameRef,
+      nameInnerRef,
+      editRef,
+      inputValue,
+      indexFormat,
+      x,
+      isEdit,
+      onEdit,
+      onBlur,
+      onConfirm,
+      onDelete
+    };
   }
-}
+});
 </script>
 
 <style scoped lang="scss">

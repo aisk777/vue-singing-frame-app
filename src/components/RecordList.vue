@@ -24,33 +24,41 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { defineComponent } from 'vue';
 import { Sortable } from 'sortablejs-vue3';
 import RecordListItem from '@/components/RecordListItem.vue';
 
-@Options({
-  components: { Sortable, RecordListItem },
+export default defineComponent({
+  name: 'RecordList',
+  components: {
+    Sortable,
+    RecordListItem
+  },
   props: {
-    records: Array
-  }
-})
-export default class RecordList extends Vue {
-  records?: any;
+    records: {
+      type: Array,
+      required: true
+    }
+  },
+  setup(props, { emit }) {
+    const onEnd = (e: any) => {
+      const _records = [...props.records];
+      const { oldIndex, newIndex } = e;
+      const item = _records.splice(oldIndex, 1)[0];
+      _records.splice(newIndex, 0, item);
 
-  // リストを更新
-  onEnd(e: any) {
-    const _records = [...this.records];
-    const { oldIndex, newIndex } = e;
-    const item = _records.splice(oldIndex, 1)[0];
-    _records.splice(newIndex, 0, item);
+      // orderを更新
+      const newRecords = _records.map((x: any, index: number) => {
+        return { ...x, order: index };
+      });
+      emit('update-db', newRecords);
+    };
 
-    // orderを更新
-    const newRecords = _records.map((x: any, index: number) => {
-      return { ...x, order: index };
-    });
-    this.$emit('update-db', newRecords);
+    return {
+      onEnd
+    };
   }
-}
+});
 </script>
 
 <style scoped lang="scss">

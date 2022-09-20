@@ -2,8 +2,8 @@ import { app, BrowserWindow, screen } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import installExtension from 'electron-devtools-installer';
 import path from 'path';
-import db from '@/main/db';
-import store from '@/main/store';
+import db from './db';
+import store from './store';
 
 const browser: any = {
   isDevelopment: process.env.NODE_ENV !== 'production',

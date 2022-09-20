@@ -1,9 +1,8 @@
 'use strict';
-
 import { app, protocol, ipcMain } from 'electron';
-import db from '@/main/db';
-import store from '@/main/store';
-import browser from '@/main/browser';
+import db from './background/db';
+import store from './background/store';
+import browser from './background/browser';
 
 // サンドボックスを有効化
 app.enableSandbox();

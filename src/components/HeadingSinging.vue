@@ -25,52 +25,62 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-
+import { defineComponent, computed, inject } from 'vue';
+// import { State as StoreState } from '@/store';
+import { useStore } from 'vuex';
+import { key } from '@/@types/ipc-db';
 import iconDrop from '@/assets/img/icon/arrow_drop.svg';
 
-@Options({
+export default defineComponent({
+  name: 'HeadingSinging',
   components: {
     iconDrop
-  }
-})
-export default class HeadingSinging extends Vue {
-  $db!: any;
+  },
+  setup() {
+    const store = useStore();
+    const $db = inject(key);
 
-  get now_singing() {
-    return this.$store.state.now_singing;
-  }
+    if (!$db) throw new Error('NO DB');
 
-  // 変更を同期
-  set now_singing(value: string) {
-    this.$db.storeDispatch('now_singing', { value: value });
-    this.$db.mainUpdateData('now_singing', { value: value });
-  }
-
-  async onDrop() {
-    if (this.now_singing === '') return;
-
-    // レコードを追加
-    this.$db.recordInsertData({
-      order: this.$store.state.main_record.length,
-      value: this.now_singing,
-      isHistory: false,
-      history_id: null
+    // 変更を同期
+    const now_singing = computed({
+      get: () => store.state.now_singing,
+      set: (value: string) => {
+        $db.storeDispatch('now_singing', { value: value });
+        $db.mainUpdateData('now_singing', { value: value });
+      }
     });
 
-    // DBから取得しストアを更新
-    try {
-      const data = await this.$db.recordGetData(
-        { isHistory: false },
-        { order: 1 }
-      );
-      this.$db.storeDispatch('main_record', data);
-      this.now_singing = '';
-    } catch (e) {
-      console.error(e);
-    }
+    const onDrop = async () => {
+      if (now_singing.value === '') return;
+
+      // レコードを追加
+      $db.recordInsertData({
+        order: store.state.main_record.length,
+        value: now_singing.value,
+        isHistory: false,
+        history_id: null
+      });
+
+      // DBから取得しストアを更新
+      try {
+        const data = await $db.recordGetData(
+          { isHistory: false },
+          { order: 1 }
+        );
+        $db.storeDispatch('main_record', data);
+        now_singing.value = '';
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    return {
+      now_singing,
+      onDrop
+    };
   }
-}
+});
 </script>
 
 <style scoped lang="scss">
