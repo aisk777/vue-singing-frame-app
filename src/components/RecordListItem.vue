@@ -3,9 +3,7 @@
     <div class="c-list__icon c-list__icon--handle"><iconHandle /></div>
     <p class="c-en c-list__index">{{ indexFormat }}</p>
     <p class="c-list__name" ref="nameRef" v-if="!isEdit">
-      <span ref="nameInnerRef" :style="{ '--x': `${this.x}px` }">{{
-        item.value
-      }}</span>
+      <span ref="nameInnerRef" :style="styleObject">{{ record.value }}</span>
     </p>
     <div class="c-list__edit" v-else>
       <input
@@ -42,13 +40,17 @@ import {
   computed,
   onMounted,
   nextTick,
-  inject
+  inject,
+  PropType
 } from 'vue';
+import { RecordItem } from '@/store';
 import { key } from '@/@types/ipc-db';
-
 import iconHandle from '@/assets/img/icon/icon_handle.svg';
 import iconPen from '@/assets/img/icon/icon_pen.svg';
 import iconDelete from '@/assets/img/icon/icon_delete.svg';
+
+type UpdateRecordName = (T: { _id: string; value: string }) => Promise<void>;
+type DeleteRecordName = (T: string) => Promise<void>;
 
 export default defineComponent({
   name: 'RecordListItem',
@@ -58,8 +60,8 @@ export default defineComponent({
     iconDelete
   },
   props: {
-    item: {
-      type: Object,
+    record: {
+      type: Object as PropType<RecordItem>,
       required: true
     },
     index: {
@@ -81,12 +83,15 @@ export default defineComponent({
     const editRef = ref<HTMLInputElement>();
 
     const x = ref(0);
+    const duration = ref(0);
     const isEdit = ref(false);
     const tmpInputValue = ref('');
+    const onUpdate = inject<UpdateRecordName>('update-record-name');
+    const deleteRecordName = inject<DeleteRecordName>('delete-record-name');
 
     // 編集時のタイトルを一時的に保持
     const inputValue = computed({
-      get: () => props.item.value,
+      get: () => props.record.value,
       set: (value: string) => (tmpInputValue.value = value)
     });
 
@@ -97,17 +102,7 @@ export default defineComponent({
       const width = nameRef.value.clientWidth;
       const innerW = nameInnerRef.value.clientWidth;
       x.value = -Math.max(0, innerW - width);
-    };
-
-    // テキストの更新
-    const onUpdate = async () => {
-      if (tmpInputValue.value === '') return;
-      await $db.updateData(
-        'Record',
-        { _id: props.item._id },
-        { ...props.item, value: tmpInputValue }
-      );
-      tmpInputValue.value = '';
+      duration.value = -x.value / 30;
     };
 
     // 編集開始
@@ -118,21 +113,31 @@ export default defineComponent({
       });
     };
 
-    // 編集の選択解除
-    const onBlur = () => {
+    // 編集の選択解除で更新処理
+    const onBlur = async () => {
+      if (tmpInputValue.value !== '' && onUpdate) {
+        await onUpdate({ _id: props.record._id, value: tmpInputValue.value });
+        tmpInputValue.value = '';
+      }
       isEdit.value = false;
-      onUpdate();
     };
 
     // 編集の確定
     const onConfirm = (e: KeyboardEvent) => {
-      if (!e.isComposing) isEdit.value = false;
+      if (!e.isComposing && editRef.value) editRef.value.blur();
     };
 
     // リストの削除
     const onDelete = () => {
-      console.log(1);
+      if (deleteRecordName) deleteRecordName(props.record._id);
     };
+
+    const styleObject = computed(() => {
+      return {
+        '--x': `${x.value}px`,
+        '--duration': `${duration.value}s`
+      };
+    });
 
     // 数値の変換
     const indexFormat = computed(() => {
@@ -152,6 +157,8 @@ export default defineComponent({
       inputValue,
       indexFormat,
       x,
+      duration,
+      styleObject,
       isEdit,
       onEdit,
       onBlur,
@@ -175,7 +182,7 @@ export default defineComponent({
     &:not(.is-chosen):focus {
       background-color: #fffff0;
       .c-list__name > span {
-        animation: txtScroll 10s linear 0.3s both running infinite;
+        animation: txtScroll var(--duration) linear 0.3s both running infinite;
       }
     }
     & + & {
@@ -260,7 +267,7 @@ export default defineComponent({
   0% {
     transform: translate3d(0, 0, 0);
   }
-  90%,
+  80%,
   100% {
     transform: translate3d(var(--x), 0, 0);
   }

@@ -14,6 +14,9 @@ contextBridge.exposeInMainWorld('db', {
   insertData: (key: DB_Key, doc: any) => {
     return ipcRenderer.invoke('insert-data', key, doc);
   },
+  removeData: (key: DB_Key, query: any) => {
+    return ipcRenderer.invoke('remove-data', key, query);
+  },
   getData: (key: DB_Key, query: any, sort: any) => {
     return ipcRenderer.invoke('get-data', key, query, sort);
   }

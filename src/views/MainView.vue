@@ -13,13 +13,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, inject } from 'vue';
+import { defineComponent, computed, inject, provide } from 'vue';
 import { useStore } from 'vuex';
-import { State as StoreState } from '@/store';
+import { State as StoreState, RecordItem } from '@/store';
 import { key } from '@/@types/ipc-db';
 import Heading from '@/components/Heading.vue';
 import RecordList from '@/components/RecordList.vue';
 import BackImage from '@/assets/img/common/set_list.svg';
+
+type UpdateRecordName = { _id: string; value: string };
 
 export default defineComponent({
   name: 'MainView',
@@ -36,18 +38,65 @@ export default defineComponent({
 
     const records = computed(() => store.state.main_record);
 
+    // レコードの削除
+    const deleteRecordName = async (_id: string) => {
+      const newRecords = records.value
+        .filter((x: RecordItem) => x._id !== _id)
+        .map((x: RecordItem, index: number) => {
+          return { ...x, order: index };
+        });
+      $db.storeDispatch('main_record', newRecords);
+
+      // DBを更新
+      try {
+        const promise = newRecords.map((record: RecordItem) => {
+          return $db.updateData(
+            'Record',
+            { _id: record._id },
+            { $set: { order: record.order } }
+          );
+        });
+        await Promise.all([$db.removeData('Record', { _id: _id }), ...promise]);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    provide('delete-record-name', deleteRecordName);
+
+    // テキストの更新
+    const updateRecordName = async ({ _id, value }: UpdateRecordName) => {
+      // ストアを更新
+      const newRecords = records.value.map((x: RecordItem) => {
+        return x._id === _id ? { ...x, value } : { ...x };
+      });
+      $db.storeDispatch('main_record', newRecords);
+
+      // DBを更新
+      try {
+        await $db.updateData('Record', { _id: _id }, { $set: { value } });
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    provide('update-record-name', updateRecordName);
+
     // 並び替えの更新
-    const onUpdate = async (value: StoreState['main_record']) => {
+    const onUpdate = async (value: RecordItem[]) => {
       $db.storeDispatch('main_record', value);
 
-      const promise = value.map((record: any) => {
+      // DBを更新
+      const promise = value.map((record: RecordItem) => {
         return $db.updateData(
           'Record',
           { _id: record._id },
           { $set: { order: record.order } }
         );
       });
-      await Promise.all(promise);
+      try {
+        await Promise.all(promise);
+      } catch (e) {
+        console.error(e);
+      }
     };
 
     const onClear = () => {

@@ -15,7 +15,7 @@
     <template #item="{ element, index }">
       <RecordListItem
         :key="element._id"
-        :item="element"
+        :record="element"
         :index="index"
         :digits="`${records.length}`.length"
       />
@@ -46,7 +46,7 @@ export default defineComponent({
       const { oldIndex, newIndex } = e;
       if (oldIndex === newIndex) return;
 
-      // 要素の並び替え処理
+      // 要素の並び替え
       const newRecords = props.records
         .reduce((acc: RecordItem[], cur: RecordItem) => {
           switch (true) {
@@ -65,11 +65,11 @@ export default defineComponent({
           }
           return acc;
         }, [])
-        .map((x: any, index: number) => {
+        .map((x: RecordItem, index: number) => {
           return { ...x, order: index };
         });
 
-      // orderを更新
+      // 更新
       emit('update-db', newRecords);
     };
 

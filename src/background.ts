@@ -32,7 +32,7 @@ if (browser.isDevelopment) {
  ** IPC通信
  */
 ipcMain.handle('store-dispatch', (_: any, key: string, payload: any) => {
-  store.dispatch(key, payload);
+  store.dispatch('sync', { key, payload });
 });
 
 ipcMain.handle('insert-data', async (_: any, key: DB_Key, doc: any) => {
@@ -52,6 +52,13 @@ ipcMain.handle(
     if (key === 'Record') {
       return await db[key].updateData(query, payload);
     }
+  }
+);
+
+ipcMain.handle(
+  'remove-data',
+  async (_: any, key: DB_Key, query: any) => {
+    return await db[key].removeData(query);
   }
 );
 

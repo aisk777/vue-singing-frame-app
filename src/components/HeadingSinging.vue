@@ -46,7 +46,7 @@ export default defineComponent({
     const now_singing = computed({
       get: () => store.state.now_singing,
       set: (value: string) => {
-        $db.storeDispatch('now_singing', { value: value });
+        $db.storeDispatch('now_singing', value);
         $db.updateData('Main', 'now_singing', { value: value });
       }
     });

@@ -16,6 +16,9 @@ const browser: any = {
       title: 'SINGING FRAME',
       width: 1200,
       height: 700,
+      maximizable: false,
+      fullscreen: false,
+      fullscreenable: false,
       resizable: false,
       webPreferences: {
         nodeIntegration: false,
@@ -32,6 +35,9 @@ const browser: any = {
       height: 800,
       x: size.width - 580,
       y: size.height - 800,
+      maximizable: false,
+      fullscreen: false,
+      fullscreenable: false,
       transparent: true,
       frame: false,
       resizable: false,
@@ -73,8 +79,10 @@ const browser: any = {
         db.Record.findData({ history_id: null }, { order: 1 })
       ]);
       // ストアの値を更新
-      mainData.forEach((doc: any) => store.dispatch(doc.field_name, doc));
-      store.dispatch('main_record', mainRecordData);
+      mainData.forEach((doc: any) =>
+        store.dispatch('sync', { key: doc.field_name, payload: doc.value })
+      );
+      store.dispatch('sync', { key: 'main_record', payload: mainRecordData });
     } catch (e) {
       console.error(e);
     }

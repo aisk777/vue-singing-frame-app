@@ -22,11 +22,8 @@ export default createStore<State>({
   },
   getters: {},
   actions: {
-    now_singing({ commit }, payload) {
-      commit('now_singing', payload.value);
-    },
-    main_record({ commit }, payload) {
-      commit('main_record', payload);
+    sync({ commit }, { key, payload }) {
+      commit(key, payload);
     }
   },
   mutations: {

@@ -33,6 +33,13 @@ class Database {
     return await this.db.findOne(query);
   }
 
+  // 削除
+  async removeData(query: any) {
+    await this.db.remove(query, {});
+    // @ts-ignore
+    this.db.compactDatafile();
+  }
+
   // 全件取得
   async getAllData() {
     return await this.db.find({});
