@@ -1,22 +1,20 @@
 import { contextBridge, ipcRenderer } from 'electron';
+import { DB_Key } from '@/@types/ipc-db';
 
 contextBridge.exposeInMainWorld('db', {
-  storeSync: (callback: any) => {
+  storeSync: (callback: () => void) => {
     return ipcRenderer.on('store-sync', callback);
   },
-  storeDispatch: (field_name: any, payload: any) => {
-    return ipcRenderer.invoke('store-dispatch', field_name, payload);
+  storeDispatch: (name: string, payload: any) => {
+    return ipcRenderer.invoke('store-dispatch', name, payload);
   },
-  mainUpdateData: (query: any, payload: any) => {
-    return ipcRenderer.invoke('main-update-data', query, payload);
+  updateData: (key: DB_Key, name: string, payload: any) => {
+    return ipcRenderer.invoke('update-data', key, name, payload);
   },
-  recordInsertData: (doc: any) => {
-    return ipcRenderer.invoke('record-insert-data', doc);
+  insertData: (key: DB_Key, doc: any) => {
+    return ipcRenderer.invoke('insert-data', key, doc);
   },
-  recordUpdateData: (query: any, payload: any) => {
-    return ipcRenderer.invoke('record-update-data', query, payload);
-  },
-  recordGetData: (query: any, sort: any) => {
-    return ipcRenderer.invoke('record-get-data', query, sort);
+  getData: (key: DB_Key, query: any, sort: any) => {
+    return ipcRenderer.invoke('get-data', key, query, sort);
   }
 });

@@ -72,6 +72,10 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const $db = inject(key);
+
+    if (!$db) throw new Error('NO DB');
+
     const nameRef = ref<HTMLElement>();
     const nameInnerRef = ref<HTMLElement>();
     const editRef = ref<HTMLInputElement>();
@@ -79,10 +83,6 @@ export default defineComponent({
     const x = ref(0);
     const isEdit = ref(false);
     const tmpInputValue = ref('');
-
-    const $db = inject(key);
-
-    if (!$db) throw new Error('NO DB');
 
     // 編集時のタイトルを一時的に保持
     const inputValue = computed({
@@ -102,7 +102,8 @@ export default defineComponent({
     // テキストの更新
     const onUpdate = async () => {
       if (tmpInputValue.value === '') return;
-      await $db.recordUpdateData(
+      await $db.updateData(
+        'Record',
         { _id: props.item._id },
         { ...props.item, value: tmpInputValue }
       );
@@ -171,7 +172,7 @@ export default defineComponent({
     grid-template-columns: 26px 56px 1fr 26px auto;
     padding: 12px 16px;
     transition: background-color 0.2s $easeInOutCubic;
-    &:not(.is-chosen):not(:active):focus {
+    &:not(.is-chosen):focus {
       background-color: #fffff0;
       .c-list__name > span {
         animation: txtScroll 10s linear 0.3s both running infinite;

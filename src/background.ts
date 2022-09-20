@@ -3,6 +3,7 @@ import { app, protocol, ipcMain } from 'electron';
 import db from './background/db';
 import store from './background/store';
 import browser from './background/browser';
+import { DB_Key } from '@/@types/ipc-db';
 
 // サンドボックスを有効化
 app.enableSandbox();
@@ -30,31 +31,33 @@ if (browser.isDevelopment) {
 /*
  ** IPC通信
  */
-ipcMain.handle('store-dispatch', (e: any, field_name: any, payload: any) => {
-  store.dispatch(field_name, payload);
+ipcMain.handle('store-dispatch', (_: any, key: string, payload: any) => {
+  store.dispatch(key, payload);
+});
+
+ipcMain.handle('insert-data', async (_: any, key: DB_Key, doc: any) => {
+  return await db[key].insertData(doc);
 });
 
 ipcMain.handle(
-  'main-update-data',
-  async (e: any, field_name: any, payload: any) => {
-    return await db.Main.updateData(
-      { field_name: field_name },
-      { field_name: field_name, ...payload }
-    );
+  'update-data',
+  async (_: any, key: DB_Key, query: any, payload: any) => {
+    if (key === 'Main') {
+      return await db[key].updateData(
+        { field_name: query },
+        { field_name: query, ...payload }
+      );
+    }
+
+    if (key === 'Record') {
+      return await db[key].updateData(query, payload);
+    }
   }
 );
-
-ipcMain.handle('record-insert-data', async (e: any, doc: any) => {
-  return await db.Record.insertData(doc);
-});
 
 ipcMain.handle(
-  'record-update-data',
-  async (e: any, query: any, payload: any) => {
-    return await db.Record.updateData(query, payload);
+  'get-data',
+  async (_: any, key: DB_Key, query: any, sort: any) => {
+    return await db[key].findData(query, sort);
   }
 );
-
-ipcMain.handle('record-get-data', async (e: any, query: any, sort: any) => {
-  return await db.Record.findData(query, sort);
-});

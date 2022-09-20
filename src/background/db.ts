@@ -1,14 +1,6 @@
 import Datastore from 'nedb-promises';
 import path from 'path';
 
-// DBを作成
-// const db = {
-//   main: Datastore.create(path.join(__dirname, 'db/main.db')),
-//   record: Datastore.create(path.join(__dirname, 'db/record.db')),
-//   history: Datastore.create(path.join(__dirname, 'db/history.db')),
-//   customize: Datastore.create(path.join(__dirname, 'db/customize.db'))
-// };
-
 // Mainクラス
 class Database {
   private db: Datastore<Document>;
@@ -30,15 +22,15 @@ class Database {
     this.db.compactDatafile();
   }
 
-  // 検索
-  async findOneData(query: any) {
-    return await this.db.findOne(query);
-  }
-
   // 複数検索
   async findData(query: any, sort: any) {
     const db = this.db.find(query);
     return sort ? await db.sort(sort) : await db;
+  }
+
+  // 検索
+  async findOneData(query: any) {
+    return await this.db.findOne(query);
   }
 
   // 全件取得

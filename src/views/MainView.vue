@@ -15,6 +15,7 @@
 <script lang="ts">
 import { defineComponent, computed, inject } from 'vue';
 import { useStore } from 'vuex';
+import { State as StoreState } from '@/store';
 import { key } from '@/@types/ipc-db';
 import Heading from '@/components/Heading.vue';
 import RecordList from '@/components/RecordList.vue';
@@ -28,24 +29,23 @@ export default defineComponent({
     BackImage
   },
   setup() {
-    const store = useStore();
+    const store = useStore<StoreState>();
     const $db = inject(key);
 
     if (!$db) throw new Error('NO DB');
 
     const records = computed(() => store.state.main_record);
 
-    const onUpdate = async (value: [any]) => {
-      const cloneValue = value.map((x: any) => {
-        return { ...x };
-      });
+    // 並び替えの更新
+    const onUpdate = async (value: StoreState['main_record']) => {
+      $db.storeDispatch('main_record', value);
 
-      $db.storeDispatch('main_record', cloneValue);
-
-      const promise = cloneValue.map((record: any) => {
-        const query = { ...record };
-        delete query._id;
-        return $db.recordUpdateData({ _id: record._id }, query);
+      const promise = value.map((record: any) => {
+        return $db.updateData(
+          'Record',
+          { _id: record._id },
+          { $set: { order: record.order } }
+        );
       });
       await Promise.all(promise);
     };

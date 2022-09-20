@@ -2,6 +2,8 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import store from '../store';
 
+import { key } from '@/@types/ipc-db';
+
 // 共通のスタイルを読み込む
 import '@/assets/scss/style.scss';
 
@@ -12,7 +14,7 @@ const app = createApp(App);
 app.use(store);
 
 // DBを接続
-app.provide('$db', window.db);
+app.provide(key, window.db);
 
 // ストアをリンク
 window.db.storeSync((_: any, mutation: any) => store.commit('sync', mutation));

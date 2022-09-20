@@ -70,7 +70,7 @@ const browser: any = {
     try {
       const [mainData, mainRecordData] = await Promise.all([
         db.Main.getAllData(),
-        db.Record.findData({ isHistory: false }, { order: 1 })
+        db.Record.findData({ history_id: null }, { order: 1 })
       ]);
       // ストアの値を更新
       mainData.forEach((doc: any) => store.dispatch(doc.field_name, doc));

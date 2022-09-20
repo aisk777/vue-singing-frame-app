@@ -24,8 +24,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { Sortable } from 'sortablejs-vue3';
+import { RecordItem } from '@/store';
 import RecordListItem from '@/components/RecordListItem.vue';
 
 export default defineComponent({
@@ -36,21 +37,39 @@ export default defineComponent({
   },
   props: {
     records: {
-      type: Array,
+      type: Array as PropType<RecordItem[]>,
       required: true
     }
   },
   setup(props, { emit }) {
     const onEnd = (e: any) => {
-      const _records = [...props.records];
       const { oldIndex, newIndex } = e;
-      const item = _records.splice(oldIndex, 1)[0];
-      _records.splice(newIndex, 0, item);
+      if (oldIndex === newIndex) return;
+
+      // 要素の並び替え処理
+      const newRecords = props.records
+        .reduce((acc: RecordItem[], cur: RecordItem) => {
+          switch (true) {
+            case oldIndex === cur.order:
+              acc[newIndex] = cur;
+              break;
+            case oldIndex < cur.order && cur.order <= newIndex:
+              acc[cur.order - 1] = cur;
+              break;
+            case newIndex <= cur.order && cur.order < oldIndex:
+              acc[cur.order + 1] = cur;
+              break;
+            default:
+              acc[cur.order] = cur;
+              break;
+          }
+          return acc;
+        }, [])
+        .map((x: any, index: number) => {
+          return { ...x, order: index };
+        });
 
       // orderを更新
-      const newRecords = _records.map((x: any, index: number) => {
-        return { ...x, order: index };
-      });
       emit('update-db', newRecords);
     };
 

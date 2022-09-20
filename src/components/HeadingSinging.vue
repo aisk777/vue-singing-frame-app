@@ -26,8 +26,8 @@
 
 <script lang="ts">
 import { defineComponent, computed, inject } from 'vue';
-// import { State as StoreState } from '@/store';
 import { useStore } from 'vuex';
+import { State as StoreState } from '@/store';
 import { key } from '@/@types/ipc-db';
 import iconDrop from '@/assets/img/icon/arrow_drop.svg';
 
@@ -37,7 +37,7 @@ export default defineComponent({
     iconDrop
   },
   setup() {
-    const store = useStore();
+    const store = useStore<StoreState>();
     const $db = inject(key);
 
     if (!$db) throw new Error('NO DB');
@@ -47,28 +47,30 @@ export default defineComponent({
       get: () => store.state.now_singing,
       set: (value: string) => {
         $db.storeDispatch('now_singing', { value: value });
-        $db.mainUpdateData('now_singing', { value: value });
+        $db.updateData('Main', 'now_singing', { value: value });
       }
     });
 
     const onDrop = async () => {
       if (now_singing.value === '') return;
 
-      // レコードを追加
-      $db.recordInsertData({
-        order: store.state.main_record.length,
-        value: now_singing.value,
-        isHistory: false,
-        history_id: null
-      });
-
-      // DBから取得しストアを更新
       try {
-        const data = await $db.recordGetData(
-          { isHistory: false },
+        // レコードを追加
+        await $db.insertData('Record', {
+          order: store.state.main_record.length,
+          value: now_singing.value,
+          history_id: null
+        });
+
+        // DBから取得しストアを更新
+        const records = await $db.getData(
+          'Record',
+          { history_id: null },
           { order: 1 }
         );
-        $db.storeDispatch('main_record', data);
+        $db.storeDispatch('main_record', records);
+
+        // 入力を空に変更
         now_singing.value = '';
       } catch (e) {
         console.error(e);
