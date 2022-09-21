@@ -55,12 +55,9 @@ ipcMain.handle(
   }
 );
 
-ipcMain.handle(
-  'remove-data',
-  async (_: any, key: DB_Key, query: any) => {
-    return await db[key].removeData(query);
-  }
-);
+ipcMain.handle('remove-data', async (_: any, key: DB_Key, query: any) => {
+  return await db[key].removeData(query);
+});
 
 ipcMain.handle(
   'get-data',
@@ -68,3 +65,7 @@ ipcMain.handle(
     return await db[key].findData(query, sort);
   }
 );
+
+ipcMain.handle('on-preview', (_: any, isPreview: boolean) => {
+  isPreview ? browser.winPreview.showInactive() : browser.winPreview.hide();
+});

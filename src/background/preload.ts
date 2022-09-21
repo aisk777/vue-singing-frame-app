@@ -21,3 +21,9 @@ contextBridge.exposeInMainWorld('db', {
     return ipcRenderer.invoke('get-data', key, query, sort);
   }
 });
+
+contextBridge.exposeInMainWorld('browser', {
+  onPreview: (isPreview: boolean) => {
+    return ipcRenderer.invoke('on-preview', isPreview);
+  }
+});

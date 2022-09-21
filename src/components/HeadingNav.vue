@@ -21,14 +21,15 @@
         </li>
       </ul>
     </div>
-    <button type="button" class="c-heading__preview">
+    <button type="button" class="c-heading__preview" @click="onPreview">
       <iconStart />
     </button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref, inject } from 'vue';
+import { key } from '@/@types/ipc-browser';
 import iconLineSingle from '@/assets/img/icon/icon_line-single.svg';
 import iconLineDouble from '@/assets/img/icon/icon_line-double.svg';
 import iconStart from '@/assets/img/icon/icon_start.svg';
@@ -39,6 +40,21 @@ export default defineComponent({
     iconLineSingle,
     iconLineDouble,
     iconStart
+  },
+  setup() {
+    const $browser = inject(key);
+    const isPreview = ref(false);
+
+    if (!$browser) throw new Error('NO BROWSER');
+
+    const onPreview = () => {
+      isPreview.value = !isPreview.value;
+      $browser.onPreview(isPreview.value);
+    };
+
+    return {
+      onPreview
+    };
   }
 });
 </script>

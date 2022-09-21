@@ -1,12 +1,29 @@
 <template>
-  <div>aaa</div>
+  <Default :now="nowSinging" :records="records" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
+import { useStore } from 'vuex';
+import { State as StoreState } from '@/store';
+
+import Default from './Default.vue';
 
 export default defineComponent({
-  name: 'App'
+  name: 'App',
+  components: {
+    Default
+  },
+  setup() {
+    const store = useStore<StoreState>();
+    const records = computed(() => store.state.main_record);
+    const nowSinging = computed(() => store.state.now_singing);
+
+    return {
+      nowSinging,
+      records
+    };
+  }
 });
 </script>
 
@@ -24,5 +41,8 @@ body {
   &:active {
     cursor: grabbing;
   }
+}
+#app {
+  height: 100%;
 }
 </style>

@@ -68,6 +68,7 @@ export default defineComponent({
           { history_id: null },
           { order: 1 }
         );
+        console.log(records);
         $db.storeDispatch('main_record', records);
 
         // 入力を空に変更
