@@ -4,19 +4,25 @@
     <ul class="sidebar__list">
       <li class="sidebar__item">
         <router-link to="/" class="sidebar__link">
-          <span class="c-en sidebar__link__en">MAIN</span>
+          <span class="sidebar__link__en"
+            ><TextMain role="img" aria-label="MAIN"
+          /></span>
           <span class="sidebar__link__ja">メイン画面</span>
         </router-link>
       </li>
       <li class="sidebar__item">
         <router-link to="/history" class="sidebar__link">
-          <span class="c-en sidebar__link__en">HISTORY</span>
+          <span class="sidebar__link__en"
+            ><TextHistory role="img" aria-label="HISTORY"
+          /></span>
           <span class="sidebar__link__ja">履歴</span>
         </router-link>
       </li>
       <li class="sidebar__item">
         <router-link to="/customize" class="sidebar__link">
-          <span class="c-en sidebar__link__en">CUSTOMIZE</span>
+          <span class="sidebar__link__en"
+            ><TextCustomize role="img" aria-label="CUSTOMIZE"
+          /></span>
           <span class="sidebar__link__ja">カスタマイズ</span>
         </router-link>
       </li>
@@ -34,9 +40,17 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import TextMain from '@/assets/img/common/txt_main.svg';
+import TextHistory from '@/assets/img/common/txt_history.svg';
+import TextCustomize from '@/assets/img/common/txt_customize.svg';
 
 export default defineComponent({
-  name: 'Sidebar'
+  name: 'Sidebar',
+  components: {
+    TextMain,
+    TextHistory,
+    TextCustomize
+  }
 });
 </script>
 
@@ -46,7 +60,7 @@ export default defineComponent({
   flex-direction: column;
   &__logo {
     padding: 40px 0;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     border-bottom: 1px solid rgba(#fff, 0.3);
   }
   &__list {
@@ -54,7 +68,7 @@ export default defineComponent({
   }
   &__link {
     display: block;
-    padding: 20px 40px;
+    padding: 22px 40px;
     margin: 0 -40px;
     &.router-link-exact-active,
     &:hover {
@@ -75,9 +89,6 @@ export default defineComponent({
     &__en {
       color: var(--backColor);
       display: block;
-      font-size: 26px;
-      font-weight: 900;
-      letter-spacing: 0.1em;
       transition: color 0.2s $easeInOutCubic;
     }
     &__ja {
@@ -87,7 +98,7 @@ export default defineComponent({
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.05em;
-      margin-top: 8px;
+      margin-top: 14px;
       padding-bottom: 1px;
       width: max-content;
       z-index: 0;

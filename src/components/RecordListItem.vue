@@ -205,6 +205,7 @@ export default defineComponent({
     color: var(--subColor);
     font-size: 12px;
     font-weight: 700;
+    padding-top: 4px;
     letter-spacing: 0.05em;
     text-align: center;
   }

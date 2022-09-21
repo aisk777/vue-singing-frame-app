@@ -33,7 +33,7 @@ export default defineComponent({
     }
   },
   setup() {
-    const listRef = ref<HTMLElement>();
+    const listRef = ref();
 
     // リスト削除時の座標を指定
     const beforeLeave = (el: HTMLElement) => {
@@ -58,8 +58,8 @@ export default defineComponent({
 .setlist {
   position: relative;
   display: grid;
-  gap: 1em (32em / 20);
-  font-size: 20px;
+  gap: 0.94em (32em / 20);
+  font-size: 22px;
   letter-spacing: 0.05em;
   line-height: 1.5;
   &__item {

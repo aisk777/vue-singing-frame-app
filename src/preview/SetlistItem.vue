@@ -42,13 +42,13 @@ export default defineComponent({
 <style scoped lang="scss">
 .setlist__item {
   display: flex;
-  gap: 0 (16em / 20);
+  gap: 0 (20em / 22);
   text-align: justify;
   &::before {
     content: attr(data-index);
     color: #31b6a0;
-    font-size: (16em / 20);
-    font-family: 'Montserrat', sans-serif;
+    font-size: (18em / 22);
+    font-family: 'Roboto', sans-serif;
     min-width: 2em;
     padding-top: 0.3em;
     flex-shrink: 0;

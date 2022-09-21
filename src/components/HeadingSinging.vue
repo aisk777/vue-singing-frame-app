@@ -119,7 +119,6 @@ export default defineComponent({
     }
     &__txt {
       font-size: 20px;
-      font-weight: 700;
       letter-spacing: 0.1em;
     }
     &__icon {
