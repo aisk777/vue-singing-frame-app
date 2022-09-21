@@ -75,7 +75,6 @@ export default defineComponent({
   },
   setup(props) {
     const $db = inject(key);
-
     if (!$db) throw new Error('NO DB');
 
     const nameRef = ref<HTMLElement>();
@@ -106,11 +105,11 @@ export default defineComponent({
     };
 
     // 編集開始
-    const onEdit = () => {
+    const onEdit = async () => {
       isEdit.value = true;
-      nextTick(() => {
-        if (editRef.value) editRef.value.select();
-      });
+
+      await nextTick();
+      if (editRef.value) editRef.value.select();
     };
 
     // 編集の選択解除で更新処理

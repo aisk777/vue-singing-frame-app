@@ -1,6 +1,6 @@
 'use strict';
 import { app, protocol, ipcMain } from 'electron';
-import db from './background/db';
+import db from './background/datastore';
 import store from './background/store';
 import browser from './background/browser';
 import { DB_Key } from '@/@types/ipc-db';
@@ -32,37 +32,42 @@ if (browser.isDevelopment) {
  ** IPC通信
  */
 ipcMain.handle('store-dispatch', (_: any, key: string, payload: any) => {
-  store.dispatch('sync', { key, payload });
+  return store.dispatch('sync', { key, payload });
 });
 
 ipcMain.handle('insert-data', async (_: any, key: DB_Key, doc: any) => {
-  return await db[key].insertData(doc);
+  return await db[key].insert(doc);
 });
 
 ipcMain.handle(
   'update-data',
   async (_: any, key: DB_Key, query: any, payload: any) => {
-    if (key === 'Main') {
-      return await db[key].updateData(
-        { field_name: query },
-        { field_name: query, ...payload }
-      );
-    }
+    const options = { upsert: true };
 
-    if (key === 'Record') {
-      return await db[key].updateData(query, payload);
+    switch (key) {
+      case 'Main':
+        return await db[key].update(
+          { field_name: query },
+          { field_name: query, ...payload },
+          options
+        );
+        break;
+      case 'Record':
+        return await db[key].update(query, payload, options);
+        break;
     }
   }
 );
 
 ipcMain.handle('remove-data', async (_: any, key: DB_Key, query: any) => {
-  return await db[key].removeData(query);
+  return await db[key].remove(query, {});
 });
 
 ipcMain.handle(
   'get-data',
   async (_: any, key: DB_Key, query: any, sort: any) => {
-    return await db[key].findData(query, sort);
+    const docs = db[key].find(query);
+    return sort ? await docs.sort(sort) : await docs;
   }
 );
 

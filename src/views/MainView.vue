@@ -31,11 +31,10 @@ export default defineComponent({
     BackImage
   },
   setup() {
-    const store = useStore<StoreState>();
     const $db = inject(key);
-
     if (!$db) throw new Error('NO DB');
 
+    const store = useStore<StoreState>();
     const records = computed(() => store.state.main_record);
 
     // レコードの削除

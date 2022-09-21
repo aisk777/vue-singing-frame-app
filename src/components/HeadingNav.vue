@@ -43,9 +43,9 @@ export default defineComponent({
   },
   setup() {
     const $browser = inject(key);
-    const isPreview = ref(false);
-
     if (!$browser) throw new Error('NO BROWSER');
+
+    const isPreview = ref(false);
 
     const onPreview = () => {
       isPreview.value = !isPreview.value;

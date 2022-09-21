@@ -37,10 +37,10 @@ export default defineComponent({
     iconDrop
   },
   setup() {
-    const store = useStore<StoreState>();
     const $db = inject(key);
-
     if (!$db) throw new Error('NO DB');
+
+    const store = useStore<StoreState>();
 
     // 変更を同期
     const now_singing = computed({
@@ -52,17 +52,18 @@ export default defineComponent({
     });
 
     const onDrop = async () => {
-      if (now_singing.value === '') return;
+      const value = now_singing.value.trim();
+      if (value === '') return;
 
       try {
         // レコードを追加
         await $db.insertData('Record', {
           order: store.state.main_record.length,
-          value: now_singing.value,
+          value: value,
           history_id: null
         });
 
-        // DBから取得しストアを更新
+        // DBから値を取得しストアを更新
         const records = await $db.getData(
           'Record',
           { history_id: null },

@@ -2,7 +2,7 @@ import { app, BrowserWindow, screen } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import installExtension from 'electron-devtools-installer';
 import path from 'path';
-import db from './db';
+import db from './datastore';
 import store from './store';
 
 const browser: any = {
@@ -67,22 +67,27 @@ const browser: any = {
     // メインウィンドウが閉じた時にプレビューも閉じる
     this.winMain.on('close', () => this.winPreview.close());
 
-    // DBの値をストアに送る
+    // 再読み込み時にDBの値をストアに送る
     this.winMain.webContents.on('dom-ready', () => this.initStore());
     this.winPreview.webContents.on('dom-ready', () => this.initStore());
   },
 
+  // 初期化
   async initStore() {
     try {
+      // DBから値を取得
       const [mainData, mainRecordData] = await Promise.all([
-        db.Main.getAllData(),
-        db.Record.findData({ history_id: null }, { order: 1 })
+        db.Main.find({}),
+        db.Record.find({ history_id: null }).sort({ order: 1 })
       ]);
       // ストアの値を更新
       mainData.forEach((doc: any) =>
         store.dispatch('sync', { key: doc.field_name, payload: doc.value })
       );
       store.dispatch('sync', { key: 'main_record', payload: mainRecordData });
+
+      // @ts-ignore
+      ['Main', 'Record'].forEach((key) => db[key].compactDatafile());
     } catch (e) {
       console.error(e);
     }
