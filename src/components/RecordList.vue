@@ -1,16 +1,13 @@
 <template>
-  <Sortable
+  <draggable
     class="c-list"
     tag="ul"
     item-key="_id"
-    :list="records"
-    :options="{
-      animation: 200,
-      handle: '.c-list__icon--handle',
-      group: 'sort',
-      chosenClass: 'is-chosen'
-    }"
-    @end="onEnd"
+    animation="200"
+    handle=".c-list__icon--handle"
+    group="sort"
+    chosenClass="is-chosen"
+    v-model="recordsWatch"
   >
     <template #item="{ element, index }">
       <RecordListItem
@@ -20,19 +17,19 @@
         :digits="`${records.length}`.length"
       />
     </template>
-  </Sortable>
+  </draggable>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import { Sortable } from 'sortablejs-vue3';
+import { defineComponent, ref, watch, watchEffect, PropType } from 'vue';
+import draggable from 'vuedraggable';
 import { RecordItem } from '@/store';
 import RecordListItem from '@/components/RecordListItem.vue';
 
 export default defineComponent({
   name: 'RecordList',
   components: {
-    Sortable,
+    draggable,
     RecordListItem
   },
   props: {
@@ -42,40 +39,19 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const onEnd = (e: any) => {
-      const { oldIndex, newIndex } = e;
-      if (oldIndex === newIndex) return;
+    const recordsWatch = ref<RecordItem[]>([]);
 
-      // 要素の並び替え
-      const newRecords = props.records
-        .reduce((acc: RecordItem[], cur: RecordItem) => {
-          switch (true) {
-            case oldIndex === cur.order:
-              acc[newIndex] = cur;
-              break;
-            case oldIndex < cur.order && cur.order <= newIndex:
-              acc[cur.order - 1] = cur;
-              break;
-            case newIndex <= cur.order && cur.order < oldIndex:
-              acc[cur.order + 1] = cur;
-              break;
-            default:
-              acc[cur.order] = cur;
-              break;
-          }
-          return acc;
-        }, [])
-        .map((x: RecordItem, index: number) => {
-          return { ...x, order: index };
-        });
+    // チラつき防止でwatchによる更新
+    watchEffect(() => (recordsWatch.value = props.records));
+    watch(recordsWatch, (newValue: RecordItem[]) => {
+      if (newValue === props.records) return;
+      const value = newValue.map((x: RecordItem, index: number) => {
+        return { ...x, order: index };
+      });
+      emit('update-db', value);
+    });
 
-      // 更新
-      emit('update-db', newRecords);
-    };
-
-    return {
-      onEnd
-    };
+    return { recordsWatch };
   }
 });
 </script>
