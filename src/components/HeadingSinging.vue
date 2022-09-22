@@ -90,12 +90,22 @@ export default defineComponent({
 <style scoped lang="scss">
 .main__singing {
   &__label {
+    position: relative;
     color: var(--primaryColor);
-    border-left: 3px solid currentColor;
     font-size: 12px;
-    font-weight: 700;
     letter-spacing: 0.1em;
-    padding-left: 8px;
+    padding-left: 12px;
+    &::before {
+      content: '';
+      background-color: currentColor;
+      position: absolute;
+      top: 0;
+      bottom: 2px;
+      left: 0;
+      margin: auto 0;
+      width: 3px;
+      height: 10px;
+    }
   }
   &__container {
     border-bottom: 2px solid var(--textColor);

@@ -2,8 +2,8 @@
   <main class="default">
     <div class="default__heading">
       <h2 class="c-en default__ttl">NOW SINGING</h2>
-      <h1 class="default__now">
-        <span>{{ now }}</span>
+      <h1 class="default__now" ref="nameRef">
+        <span ref="nameInnerRef" :class="clsReset">{{ text }}</span>
       </h1>
     </div>
     <div class="default__set">
@@ -14,7 +14,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, ref, computed, PropType } from 'vue';
+import useScrollName from '@/composables/useScrollName';
 import { RecordItem } from '@/store';
 import Setlist from './Setlist.vue';
 
@@ -24,7 +25,7 @@ export default defineComponent({
     Setlist
   },
   props: {
-    now: {
+    text: {
       type: String,
       required: true
     },
@@ -33,8 +34,23 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
-    console.log(1);
+  setup(props) {
+    const nameRef = ref<HTMLElement>();
+    const nameInnerRef = ref<HTMLElement>();
+
+    const { variableX, variableDuration, clsReset } = useScrollName(
+      nameRef,
+      nameInnerRef,
+      computed(() => props.text)
+    );
+
+    return {
+      nameRef,
+      nameInnerRef,
+      variableX,
+      variableDuration,
+      clsReset
+    };
   }
 });
 </script>
@@ -73,6 +89,10 @@ export default defineComponent({
     > span {
       display: block;
       width: max-content;
+      animation: posX v-bind(variableDuration) 1s linear forwards;
+      &.is-reset {
+        animation: none !important;
+      }
     }
   }
   &__heading {
@@ -92,6 +112,14 @@ export default defineComponent({
   }
   &__set {
     padding: 28px 28px 36px;
+  }
+}
+@keyframes posX {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(v-bind(variableX));
   }
 }
 </style>

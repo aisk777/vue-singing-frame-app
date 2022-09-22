@@ -1,5 +1,5 @@
 <template>
-  <Default :now="nowSinging" :records="records" />
+  <Default :text="nowSinging" :records="records" />
 </template>
 
 <script lang="ts">

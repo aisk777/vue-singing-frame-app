@@ -1,10 +1,17 @@
 <template>
-  <li class="c-list__item" tabindex="-1">
+  <li
+    class="c-list__item"
+    tabindex="-1"
+    @focus="isFocus = true"
+    @blur="isFocus = false"
+  >
     <div class="c-list__icon c-list__icon--handle"><iconHandle /></div>
     <p class="c-en c-list__index">{{ indexFormat }}</p>
-    <p class="c-list__name" ref="nameRef" v-if="!isEdit">
-      <span ref="nameInnerRef" :style="styleObject">{{ record.value }}</span>
-    </p>
+    <RecordListItemName
+      v-if="!isEdit"
+      :text="record.value"
+      :isFocus="isFocus"
+    />
     <div class="c-list__edit" v-else>
       <input
         type="text"
@@ -38,13 +45,13 @@ import {
   defineComponent,
   ref,
   computed,
-  onMounted,
   nextTick,
   inject,
   PropType
 } from 'vue';
 import { RecordItem } from '@/store';
 import { key } from '@/@types/ipc-db';
+import RecordListItemName from '@/components/RecordListItemName.vue';
 import iconHandle from '@/assets/img/icon/icon_handle.svg';
 import iconPen from '@/assets/img/icon/icon_pen.svg';
 import iconDelete from '@/assets/img/icon/icon_delete.svg';
@@ -55,6 +62,7 @@ type DeleteRecordName = (T: string) => Promise<void>;
 export default defineComponent({
   name: 'RecordListItem',
   components: {
+    RecordListItemName,
     iconHandle,
     iconPen,
     iconDelete
@@ -77,13 +85,10 @@ export default defineComponent({
     const $db = inject(key);
     if (!$db) throw new Error('NO DB');
 
-    const nameRef = ref<HTMLElement>();
-    const nameInnerRef = ref<HTMLElement>();
     const editRef = ref<HTMLInputElement>();
-
-    const x = ref(0);
-    const duration = ref(0);
     const isEdit = ref(false);
+    const isFocus = ref(false);
+
     const tmpInputValue = ref('');
     const onUpdate = inject<UpdateRecordName>('update-record-name');
     const deleteRecordName = inject<DeleteRecordName>('delete-record-name');
@@ -93,16 +98,6 @@ export default defineComponent({
       get: () => props.record.value,
       set: (value: string) => (tmpInputValue.value = value)
     });
-
-    // CSS変数を更新
-    const setVariable = () => {
-      if (!nameRef.value || !nameInnerRef.value) return;
-
-      const width = nameRef.value.clientWidth;
-      const innerW = nameInnerRef.value.clientWidth;
-      x.value = -Math.max(0, innerW - width);
-      duration.value = -x.value / 30;
-    };
 
     // 編集開始
     const onEdit = async () => {
@@ -131,13 +126,6 @@ export default defineComponent({
       if (deleteRecordName) deleteRecordName(props.record._id);
     };
 
-    const styleObject = computed(() => {
-      return {
-        '--x': `${x.value}px`,
-        '--duration': `${duration.value}s`
-      };
-    });
-
     // 数値の変換
     const indexFormat = computed(() => {
       const digits = props.digits === 1 ? props.digits + 1 : props.digits;
@@ -147,17 +135,11 @@ export default defineComponent({
       return numberFormat.format(props.index + 1);
     });
 
-    onMounted(() => setVariable());
-
     return {
-      nameRef,
-      nameInnerRef,
+      isFocus,
       editRef,
       inputValue,
       indexFormat,
-      x,
-      duration,
-      styleObject,
       isEdit,
       onEdit,
       onBlur,
@@ -180,9 +162,9 @@ export default defineComponent({
     transition: background-color 0.2s $easeInOutCubic;
     &:not(.is-chosen):focus {
       background-color: #fffff0;
-      .c-list__name > span {
-        animation: txtScroll var(--duration) linear 0.3s both running infinite;
-      }
+    }
+    &.is-chosen ::v-deep .c-list__name > span {
+      animation: none !important;
     }
     & + & {
       position: relative;
@@ -207,18 +189,6 @@ export default defineComponent({
     padding-top: 4px;
     letter-spacing: 0.05em;
     text-align: center;
-  }
-  &__name {
-    font-size: 14px;
-    letter-spacing: 0.05em;
-    line-height: 26px;
-    margin-right: 16px;
-    overflow: hidden;
-    > span {
-      display: block;
-      width: max-content;
-      backface-visibility: hidden;
-    }
   }
   &__edit {
     margin: 0 8px 0 -8px;
@@ -260,16 +230,6 @@ export default defineComponent({
     &--delete {
       margin-left: 8px;
     }
-  }
-}
-
-@keyframes txtScroll {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  80%,
-  100% {
-    transform: translate3d(var(--x), 0, 0);
   }
 }
 </style>
