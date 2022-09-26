@@ -9,7 +9,7 @@ import { defineComponent, PropType, computed } from 'vue';
 import { RecordItem } from '@/store';
 
 export default defineComponent({
-  name: 'Setlist',
+  name: 'SetListItem',
   props: {
     record: {
       type: Object as PropType<RecordItem>,

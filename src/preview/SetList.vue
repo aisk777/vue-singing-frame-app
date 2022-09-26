@@ -6,7 +6,7 @@
     ref="listRef"
     @before-leave="beforeLeave"
   >
-    <SetlistItem
+    <SetListItem
       :key="record._id"
       :record="record"
       :index="index"
@@ -19,12 +19,12 @@
 <script lang="ts">
 import { defineComponent, ref, PropType } from 'vue';
 import { RecordItem } from '@/store';
-import SetlistItem from './SetlistItem.vue';
+import SetListItem from './SetListItem.vue';
 
 export default defineComponent({
-  name: 'Setlist',
+  name: 'SetList',
   components: {
-    SetlistItem
+    SetListItem
   },
   props: {
     records: {

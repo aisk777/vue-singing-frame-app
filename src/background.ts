@@ -51,10 +51,8 @@ ipcMain.handle(
           { field_name: query, ...payload },
           options
         );
-        break;
       case 'Record':
         return await db[key].update(query, payload, options);
-        break;
     }
   }
 );

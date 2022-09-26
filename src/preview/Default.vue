@@ -8,7 +8,7 @@
     </div>
     <div class="default__set">
       <h2 class="c-en default__ttl">SET LIST</h2>
-      <Setlist :records="records" />
+      <SetList :records="records" />
     </div>
   </main>
 </template>
@@ -17,12 +17,12 @@
 import { defineComponent, ref, computed, PropType } from 'vue';
 import useScrollName from '@/composables/useScrollName';
 import { RecordItem } from '@/store';
-import Setlist from './Setlist.vue';
+import SetList from './SetList.vue';
 
 export default defineComponent({
   name: 'Default',
   components: {
-    Setlist
+    SetList
   },
   props: {
     text: {

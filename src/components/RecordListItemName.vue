@@ -48,7 +48,7 @@ export default defineComponent({
   margin-right: 16px;
   overflow: hidden;
   &.is-focus > span {
-    animation: posX v-bind(variableDuration) 0.2s linear forwards;
+    animation: posX v-bind(variableDuration) 0.6s linear forwards;
     &.is-reset {
       animation: none !important;
     }
