@@ -19,7 +19,7 @@ import { State as StoreState, RecordItem } from '@/store';
 import { key } from '@/@types/ipc-db';
 import Heading from '@/components/Heading.vue';
 import RecordList from '@/components/RecordList.vue';
-import BackImage from '@/assets/img/common/set_list.svg';
+import BackImage from '@/assets/img/common/bg_set-list.svg';
 
 type UpdateRecordName = { _id: string; value: string };
 

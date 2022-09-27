@@ -2,7 +2,7 @@
   <transition-group
     name="list"
     tag="ul"
-    class="setlist"
+    class="set-list"
     ref="listRef"
     @before-leave="beforeLeave"
   >
@@ -55,7 +55,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.setlist {
+.set-list {
   position: relative;
   display: grid;
   gap: 0.94em (32em / 20);

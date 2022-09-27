@@ -163,7 +163,7 @@ export default defineComponent({
     &:not(.is-chosen):focus {
       background-color: #fffff0;
     }
-    &.is-chosen ::v-deep .c-list__name > span {
+    &.is-chosen :deep .c-list__name > span {
       animation: none !important;
     }
     & + & {

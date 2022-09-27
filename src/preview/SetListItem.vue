@@ -1,5 +1,5 @@
 <template>
-  <li :data-index="indexFormat" class="setlist__item">
+  <li :data-index="indexFormat" class="set-list__item">
     {{ record.value }}
   </li>
 </template>
@@ -40,7 +40,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.setlist__item {
+.set-list__item {
   display: flex;
   gap: 0 (20em / 22);
   text-align: justify;
