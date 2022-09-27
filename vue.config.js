@@ -1,4 +1,4 @@
-const ESLintPlugin = require('eslint-webpack-plugin');
+// const ESLintPlugin = require('eslint-webpack-plugin');
 const { defineConfig } = require('@vue/cli-service');
 
 module.exports = defineConfig({
@@ -40,13 +40,13 @@ module.exports = defineConfig({
           ]
         }
       });
-  },
-  configureWebpack: {
-    plugins: [
-      new ESLintPlugin({
-        extensions: ['ts', 'js', 'vue'],
-        fix: true
-      })
-    ]
   }
+  // configureWebpack: {
+  //   plugins: [
+  //     new ESLintPlugin({
+  //       extensions: ['ts', 'js', 'vue'],
+  //       fix: true
+  //     })
+  //   ]
+  // }
 });

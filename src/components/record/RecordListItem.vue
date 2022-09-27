@@ -50,8 +50,8 @@ import {
   PropType
 } from 'vue';
 import { RecordItem } from '@/store';
-import { key } from '@/@types/ipc-db';
-import RecordListItemName from '@/components/RecordListItemName.vue';
+import { key } from '@/background/_ipcDatastore';
+import RecordListItemName from '@/components/record/RecordListItemName.vue';
 import iconHandle from '@/assets/img/icon/icon_handle.svg';
 import iconPen from '@/assets/img/icon/icon_pen.svg';
 import iconDelete from '@/assets/img/icon/icon_delete.svg';

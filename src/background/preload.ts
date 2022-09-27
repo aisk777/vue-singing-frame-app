@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import { DB_Key } from '@/@types/ipc-db';
+import { DB_Key } from '@/background/_ipcDatastore';
 
 contextBridge.exposeInMainWorld('db', {
   storeSync: (callback: () => void) => {

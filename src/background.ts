@@ -3,7 +3,7 @@ import { app, protocol, ipcMain } from 'electron';
 import db from './background/datastore';
 import store from './background/store';
 import browser from './background/browser';
-import { DB_Key } from '@/@types/ipc-db';
+import { DB_Key } from '@/background/_ipcDatastore';
 
 // サンドボックスを有効化
 app.enableSandbox();

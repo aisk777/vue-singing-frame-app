@@ -16,9 +16,9 @@
 import { defineComponent, computed, inject, provide } from 'vue';
 import { useStore } from 'vuex';
 import { State as StoreState, RecordItem } from '@/store';
-import { key } from '@/@types/ipc-db';
-import Heading from '@/components/Heading.vue';
-import RecordList from '@/components/RecordList.vue';
+import { key } from '@/background/_ipcDatastore';
+import Heading from '@/components/heading/Heading.vue';
+import RecordList from '@/components/record/RecordList.vue';
 import BackImage from '@/assets/img/common/bg_set-list.svg';
 
 type UpdateRecordName = { _id: string; value: string };

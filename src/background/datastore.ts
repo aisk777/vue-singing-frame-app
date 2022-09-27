@@ -1,5 +1,5 @@
 import Datastore from 'nedb-promises';
-import { DatastoreObject } from '@/@types/ipc-db';
+import { DatastoreObject } from '@/background/_ipcDatastore';
 import path from 'path';
 
 const db: DatastoreObject = {

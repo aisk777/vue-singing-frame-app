@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import store from '../store';
 
-import { key } from '@/@types/ipc-db';
+import { key } from '@/background/_ipcDatastore';
 
 // 共通のスタイルを読み込む
 import '@/assets/scss/style.scss';

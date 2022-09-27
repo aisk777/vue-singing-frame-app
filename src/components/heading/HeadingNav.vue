@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, inject } from 'vue';
-import { key } from '@/@types/ipc-browser';
+import { key } from '@/background/_ipcBrowser';
 import iconLineSingle from '@/assets/img/icon/icon_line-single.svg';
 import iconLineDouble from '@/assets/img/icon/icon_line-double.svg';
 import iconStart from '@/assets/img/icon/icon_start.svg';

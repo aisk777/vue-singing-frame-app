@@ -3,8 +3,8 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
-import { key as key_db } from '@/@types/ipc-db';
-import { key as key_browser } from '@/@types/ipc-browser';
+import { key as key_db } from '@/background/_ipcDatastore';
+import { key as key_browser } from '@/background/_ipcBrowser';
 
 // 共通のスタイルを読み込む
 import '@/assets/scss/style.scss';

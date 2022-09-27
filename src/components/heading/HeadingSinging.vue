@@ -28,7 +28,7 @@
 import { defineComponent, computed, inject } from 'vue';
 import { useStore } from 'vuex';
 import { State as StoreState } from '@/store';
-import { key } from '@/@types/ipc-db';
+import { key } from '@/background/_ipcDatastore';
 import iconDrop from '@/assets/img/icon/arrow_drop.svg';
 
 export default defineComponent({

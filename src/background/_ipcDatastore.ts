@@ -5,7 +5,6 @@ export interface DatastoreObject {
   Main: Datastore<Document>;
   Record: Datastore<Document>;
   // History: Datastore<Document>;
-  // Customize: Datastore<Document>;
 }
 export type DB_Key = keyof DatastoreObject;
 

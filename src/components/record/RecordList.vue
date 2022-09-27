@@ -24,7 +24,7 @@
 import { defineComponent, ref, watch, watchEffect, PropType } from 'vue';
 import draggable from 'vuedraggable';
 import { RecordItem } from '@/store';
-import RecordListItem from '@/components/RecordListItem.vue';
+import RecordListItem from '@/components/record/RecordListItem.vue';
 
 export default defineComponent({
   name: 'RecordList',

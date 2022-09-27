@@ -7,8 +7,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import HeadingNav from '@/components/HeadingNav.vue';
-import HeadingSinging from '@/components/HeadingSinging.vue';
+import HeadingNav from '@/components/heading/HeadingNav.vue';
+import HeadingSinging from '@/components/heading/HeadingSinging.vue';
 
 export default defineComponent({
   name: 'Heading',
