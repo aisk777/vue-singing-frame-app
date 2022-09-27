@@ -15,7 +15,9 @@
     </div>
     <div class="main__singing__drop">
       <button type="button" class="main__singing__drop__btn" @click="onDrop">
-        <span class="c-en main__singing__drop__txt">DROP</span>
+        <span class="c-en main__singing__drop__txt"
+          ><txtDrop role="img" aria-label="DROP"
+        /></span>
         <span class="main__singing__drop__icon">
           <iconDrop /><iconDrop /><iconDrop />
         </span>
@@ -30,11 +32,13 @@ import { useStore } from 'vuex';
 import { State as StoreState } from '@/store';
 import { key } from '@/background/_ipcDatastore';
 import iconDrop from '@/assets/img/icon/arrow_drop.svg';
+import txtDrop from '@/assets/img/common/txt_drop.svg';
 
 export default defineComponent({
   name: 'HeadingSinging',
   components: {
-    iconDrop
+    iconDrop,
+    txtDrop
   },
   setup() {
     const $db = inject(key);
@@ -126,11 +130,10 @@ export default defineComponent({
       display: inline-flex;
       gap: 0 16px;
       align-items: center;
-      padding: 10px 16px 9px;
+      padding: 12px 16px;
     }
     &__txt {
-      font-size: 20px;
-      letter-spacing: 0.1em;
+      padding-bottom: 1px;
     }
     &__icon {
       display: flex;

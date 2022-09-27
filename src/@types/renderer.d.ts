@@ -6,5 +6,6 @@ declare global {
   interface Window {
     db: IPC_Datastore;
     browser: IPC_Browser;
+    queryLocalFonts: any;
   }
 }

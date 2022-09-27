@@ -59,6 +59,14 @@ input[type="date"] {
   }
 }
 
+input[type="number"] {
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+}
+
 label,
 select {
   cursor: pointer;

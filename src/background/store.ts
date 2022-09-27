@@ -1,24 +1,27 @@
 import { createStore } from 'vuex';
-import { State, Payload } from '@/store';
+import { State, Payload, defaultCustomData } from '@/store';
 import browser from './browser';
 
 // レンダラーのストアを更新
 const webContents = (store: any) => {
-  store.subscribe(({ type }: Payload, state: State) => {
-    const mutation = JSON.stringify({ type, payload: state[type] });
-    try {
-      browser.winMain.webContents.send('store-sync', mutation);
-      browser.winPreview.webContents.send('store-sync', mutation);
-    } catch (e: any) {
-      console.error(e);
+  store.subscribe(
+    <T extends keyof State>({ type }: Payload<T, State[T]>, state: State) => {
+      const mutation = JSON.stringify({ type, payload: state[type] });
+      try {
+        browser.winMain.webContents.send('store-sync', mutation);
+        browser.winPreview.webContents.send('store-sync', mutation);
+      } catch (e: any) {
+        console.error(e);
+      }
     }
-  });
+  );
 };
 
 export default createStore<State>({
   state: {
     now_singing: '',
-    main_record: []
+    main_record: [],
+    customize: { ...defaultCustomData }
   },
   getters: {},
   actions: {
