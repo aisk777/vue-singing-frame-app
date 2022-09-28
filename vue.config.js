@@ -17,7 +17,10 @@ module.exports = defineConfig({
           target: 'dmg'
         },
         win: {
-          target: 'portable'
+          target: {
+            target: 'zip',
+            arch: ['x64']
+          }
         },
         // TODO resource内の出力テスト
         extraResources: 'README.md'
