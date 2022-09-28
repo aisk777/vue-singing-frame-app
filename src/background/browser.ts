@@ -21,6 +21,7 @@ const browser: any = {
       fullscreenable: false,
       resizable: false,
       webPreferences: {
+        devTools: this.isDevelopment,
         nodeIntegration: false,
         contextIsolation: true,
         preload: path.join(__dirname, 'preload.js')
@@ -44,6 +45,7 @@ const browser: any = {
       hasShadow: false,
       roundedCorners: false,
       webPreferences: {
+        devTools: this.isDevelopment,
         nodeIntegration: false,
         contextIsolation: true,
         preload: path.join(__dirname, 'preload.js')

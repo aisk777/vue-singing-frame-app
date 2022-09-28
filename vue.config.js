@@ -11,9 +11,16 @@ module.exports = defineConfig({
     electronBuilder: {
       preload: './src/background/preload.ts',
       customFileProtocol: './',
-      removeElectronJunk: false,
       builderOptions: {
-        // extraResources: './save'
+        appId: 'com.ai.singing-frame.app',
+        mac: {
+          target: 'dmg'
+        },
+        win: {
+          target: 'portable'
+        },
+        // TODO resource内の出力テスト
+        extraResources: 'README.md'
       }
     }
   },
