@@ -1,6 +1,6 @@
 import { app, BrowserWindow, screen } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
-import installExtension from 'electron-devtools-installer';
+import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import path from 'path';
 import db from './datastore';
 import store from './store';
@@ -104,16 +104,13 @@ const browser: any = {
   async ready() {
     if (this.isDevelopment && !process.env.IS_TEST) {
       try {
-        await installExtension({
-          id: 'nhdogjmejiglipccpnnnanhbledajbpd',
-          electron: '>=1.2.1'
-        });
+        await installExtension(VUEJS_DEVTOOLS);
       } catch (e: any) {
         console.error('Vue Devtools failed to install:', e.toString());
       }
     }
-    this.createWindow();
-    this.initStore();
+    await this.createWindow();
+    await this.initStore();
   }
 };
 export default browser;
