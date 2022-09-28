@@ -9,7 +9,12 @@ module.exports = defineConfig({
   },
   pluginOptions: {
     electronBuilder: {
-      preload: './src/background/preload.ts'
+      preload: './src/background/preload.ts',
+      customFileProtocol: './',
+      removeElectronJunk: false,
+      builderOptions: {
+        // extraResources: './save'
+      }
     }
   },
   css: {
@@ -41,12 +46,4 @@ module.exports = defineConfig({
         }
       });
   }
-  // configureWebpack: {
-  //   plugins: [
-  //     new ESLintPlugin({
-  //       extensions: ['ts', 'js', 'vue'],
-  //       fix: true
-  //     })
-  //   ]
-  // }
 });
