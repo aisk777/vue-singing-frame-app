@@ -14,10 +14,21 @@
       <FormInputRadioBox
         v-model="valueSync"
         :custom="custom"
+        class="form__custom"
         isFile
         label="カスタム"
         value="custom"
       >
+        <transition mode="out-in" name="scale">
+          <button
+            type="button"
+            class="form__custom__btn"
+            v-if="custom.src !== ''"
+            @click.stop="onClear"
+          >
+            <iconDelete />
+          </button>
+        </transition>
         <transition mode="out-in" name="scale">
           <div class="form__img" v-if="custom.src === ''" key="on">
             <ThemeCustom />
@@ -36,12 +47,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue';
+import { computed, defineComponent, inject, PropType } from 'vue';
 import { CustomData } from '@/store';
 import FormInputRadioBox from '@/components/form/FormInputRadioBox.vue';
 import FormList from '@/components/form/FormList.vue';
 import ThemeTransparent from '@/assets/img/customize/theme_transparent.svg?inline';
 import ThemeCustom from '@/assets/img/customize/theme_custom.svg?inline';
+import iconDelete from '@/assets/img/icon/icon_delete.svg';
+
+type UpdateCustomData = (T: CustomData) => void;
 
 export default defineComponent({
   name: 'FormListTheme',
@@ -49,7 +63,8 @@ export default defineComponent({
     FormInputRadioBox,
     FormList,
     ThemeTransparent,
-    ThemeCustom
+    ThemeCustom,
+    iconDelete
   },
   props: {
     modelValue: String,
@@ -59,11 +74,25 @@ export default defineComponent({
     }
   },
   setup(prop, { emit }) {
+    const updateCustomData = inject<UpdateCustomData>('update-custom-data');
+
     const valueSync = computed({
       get: () => prop.modelValue,
       set: (value) => emit('update:modelValue', value)
     });
-    return { valueSync };
+
+    // 初期化
+    const onClear = () => {
+      if (!updateCustomData) return;
+      valueSync.value = 'default';
+      updateCustomData({
+        file: null,
+        src: '',
+        palette: []
+      });
+    };
+
+    return { valueSync, onClear };
   }
 });
 </script>
@@ -104,6 +133,26 @@ export default defineComponent({
 .form__img {
   margin: auto 0;
 }
+.form__custom {
+  position: relative;
+  z-index: 0;
+  &__btn {
+    background-color: var(--backColor);
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    color: var(--textColor);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    top: -12px;
+    right: -12px;
+    z-index: 1;
+  }
+}
+
 .scale-enter-active,
 .scale-leave-active {
   transition: 0.2s $easeOutQuart;

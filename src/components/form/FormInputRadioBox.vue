@@ -70,9 +70,20 @@ export default defineComponent({
     // ボタンのクリック処理
     const onClick = () => {
       // ファイルを開く
-      prop.isFile && fileRef.value && !prop.custom?.src
-        ? fileRef.value.click()
-        : (valueSync.value = prop.value);
+      if (prop.isFile && fileRef.value) {
+        switch (true) {
+          // srcが存在しない場合、または2回クリックした場合
+          case !prop.custom?.src:
+          case !!prop.custom?.src && valueSync.value === prop.value:
+            fileRef.value.click();
+            break;
+          default:
+            valueSync.value = prop.value;
+            break;
+        }
+      } else {
+        valueSync.value = prop.value;
+      }
     };
 
     // ファイルの選択処理
