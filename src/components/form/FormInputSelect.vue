@@ -21,7 +21,7 @@ export default defineComponent({
     arrowBottom
   },
   props: {
-    value: String,
+    modelValue: String,
     options: {
       type: Array,
       required: true
@@ -33,8 +33,8 @@ export default defineComponent({
   },
   setup(prop, { emit }) {
     const valueSync = computed({
-      get: () => prop.value,
-      set: (value) => emit('update:value', value)
+      get: () => prop.modelValue,
+      set: (value) => emit('update:modelValue', value)
     });
     return { valueSync };
   }

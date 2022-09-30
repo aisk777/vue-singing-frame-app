@@ -42,6 +42,24 @@ module.exports = defineConfig({
       .use('vue-loader')
       .loader('vue-loader')
       .end()
+      .oneOf('inline')
+      .resourceQuery(/inline/)
+      .use('vue-svg-loader')
+      .loader('vue-svg-loader')
+      .options({
+        svgo: {
+          plugins: [
+            { removeTitle: true },
+            { removeAttrs: { attrs: ['class', 'id', 'data-name'] } },
+            { removeStyleElement: true },
+            { removeViewBox: false },
+            { addClassesToSVGElement: { className: 'c-svg-inline' } }
+          ]
+        }
+      })
+      .end()
+      .end()
+      .oneOf('external')
       .use('vue-svg-loader')
       .loader('vue-svg-loader')
       .options({

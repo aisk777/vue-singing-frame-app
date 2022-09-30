@@ -36,7 +36,8 @@ textarea {
 }
 
 input[type="radio"],
-input[type="checkbox"] {
+input[type="checkbox"],
+input[type="file"],{
   display: none !important;
 }
 input[type="text"],

@@ -30,11 +30,17 @@ export type ColorData = {
   opacity: number;
 };
 
-type Color = {
+export type Color = {
   base: ColorData;
   text: ColorData;
   sub: ColorData;
   accent: ColorData;
+};
+
+export type CustomData = {
+  file: File | null;
+  src: string;
+  palette: string[];
 };
 
 interface Customize {
@@ -45,6 +51,7 @@ interface Customize {
   list_per_page: number;
   theme: 'default' | 'transparent' | 'custom';
   theme_color: 'light' | 'dark' | 'user';
+  custom: CustomData;
   color: Color;
   check_round: boolean;
   check_border: boolean;
@@ -69,6 +76,11 @@ export const defaultCustomData: Customize = {
   list_per_page: 12,
   theme: 'default',
   theme_color: 'light',
+  custom: {
+    file: null,
+    src: '',
+    palette: []
+  },
   color: {
     base: { hex: '#fff', opacity: 1 },
     text: { hex: '#333', opacity: 1 },

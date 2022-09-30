@@ -37,7 +37,7 @@ export default defineComponent({
     arrowDown
   },
   props: {
-    value: Number,
+    modelValue: Number,
     step: {
       type: Number,
       default: 1
@@ -57,9 +57,9 @@ export default defineComponent({
   },
   setup(prop, { emit }) {
     const valueSync = computed({
-      get: () => prop.value,
+      get: () => prop.modelValue,
       set: (value) => {
-        if (value && !isNaN(value)) emit('update:value', value);
+        if (value && !isNaN(value)) emit('update:modelValue', value);
       }
     });
 
