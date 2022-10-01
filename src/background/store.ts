@@ -1,5 +1,5 @@
+import { defaultCustomData, Payload, State } from '@/store';
 import { createStore } from 'vuex';
-import { State, Payload, defaultCustomData } from '@/store';
 import browser from './browser';
 
 // レンダラーのストアを更新

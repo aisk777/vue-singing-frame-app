@@ -13,13 +13,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, inject, provide } from 'vue';
-import { useStore } from 'vuex';
-import { State as StoreState, RecordItem } from '@/store';
+import BackImage from '@/assets/img/common/bg_set-list.svg';
 import { key } from '@/background/_ipcDatastore';
 import Heading from '@/components/heading/Heading.vue';
 import RecordList from '@/components/record/RecordList.vue';
-import BackImage from '@/assets/img/common/bg_set-list.svg';
+import { RecordItem, State as StoreState } from '@/store';
+import { computed, defineComponent, inject, provide } from 'vue';
+import { useStore } from 'vuex';
 
 type UpdateRecordName = { _id: string; value: string };
 

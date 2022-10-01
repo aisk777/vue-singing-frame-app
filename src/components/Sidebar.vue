@@ -39,10 +39,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import TextMain from '@/assets/img/common/txt_main.svg';
-import TextHistory from '@/assets/img/common/txt_history.svg';
 import TextCustomize from '@/assets/img/common/txt_customize.svg';
+import TextHistory from '@/assets/img/common/txt_history.svg';
+import TextMain from '@/assets/img/common/txt_main.svg';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'Sidebar',

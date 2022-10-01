@@ -47,13 +47,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, PropType } from 'vue';
-import { CustomData } from '@/store';
+import ThemeCustom from '@/assets/img/customize/theme_custom.svg?inline';
+import ThemeTransparent from '@/assets/img/customize/theme_transparent.svg?inline';
+import iconDelete from '@/assets/img/icon/icon_delete.svg';
 import FormInputRadioBox from '@/components/form/FormInputRadioBox.vue';
 import FormList from '@/components/form/FormList.vue';
-import ThemeTransparent from '@/assets/img/customize/theme_transparent.svg?inline';
-import ThemeCustom from '@/assets/img/customize/theme_custom.svg?inline';
-import iconDelete from '@/assets/img/icon/icon_delete.svg';
+import { CustomData } from '@/store';
+import { computed, defineComponent, inject, PropType } from 'vue';
 
 type UpdateCustomData = (T: CustomData) => void;
 

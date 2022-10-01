@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
 import HeadingNav from '@/components/heading/HeadingNav.vue';
 import HeadingSinging from '@/components/heading/HeadingSinging.vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'Heading',

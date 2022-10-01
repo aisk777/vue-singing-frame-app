@@ -41,20 +41,20 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-  nextTick,
-  inject,
-  PropType
-} from 'vue';
-import { RecordItem } from '@/store';
-import { key } from '@/background/_ipcDatastore';
-import RecordListItemName from '@/components/record/RecordListItemName.vue';
+import iconDelete from '@/assets/img/icon/icon_delete.svg';
 import iconHandle from '@/assets/img/icon/icon_handle.svg';
 import iconPen from '@/assets/img/icon/icon_pen.svg';
-import iconDelete from '@/assets/img/icon/icon_delete.svg';
+import { key } from '@/background/_ipcDatastore';
+import RecordListItemName from '@/components/record/RecordListItemName.vue';
+import { RecordItem } from '@/store';
+import {
+  computed,
+  defineComponent,
+  inject,
+  nextTick,
+  PropType,
+  ref
+} from 'vue';
 
 type UpdateRecordName = (T: { _id: string; value: string }) => Promise<void>;
 type DeleteRecordName = (T: string) => Promise<void>;

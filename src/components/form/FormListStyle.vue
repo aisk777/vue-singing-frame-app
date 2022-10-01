@@ -25,12 +25,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import FormInputRadioBox from '@/components/form/FormInputRadioBox.vue';
-import FormList from '@/components/form/FormList.vue';
 import StyleDot from '@/assets/img/customize/style_dot.svg';
 import StyleNum from '@/assets/img/customize/style_num.svg';
 import StyleOff from '@/assets/img/customize/style_off.svg';
+import FormInputRadioBox from '@/components/form/FormInputRadioBox.vue';
+import FormList from '@/components/form/FormList.vue';
+import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'FormListStyle',

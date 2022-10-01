@@ -1,13 +1,13 @@
+import { sleep } from '@/assets/ts/utility';
 import {
-  ref,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
   reactive,
   Ref,
-  watch,
-  onMounted,
-  onBeforeUnmount,
-  nextTick
+  ref,
+  watch
 } from 'vue';
-import { sleep } from '@/assets/ts/utility';
 
 const useScrollName = (nameRef: Ref, nameInnerRef: Ref, watchRef?: Ref) => {
   const variableX = ref('0px');

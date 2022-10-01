@@ -1,5 +1,5 @@
-import Datastore from 'nedb-promises';
 import { DatastoreObject } from '@/background/_ipcDatastore';
+import Datastore from 'nedb-promises';
 import path from 'path';
 
 const directory = process.env.NODE_ENV !== 'production' ? './' : '../';

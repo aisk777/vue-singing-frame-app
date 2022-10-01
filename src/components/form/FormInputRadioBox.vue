@@ -18,19 +18,19 @@
       class="c-radio-box__input"
       type="radio"
     />
-    <div class="c-radio-box__main">
-      <div class="c-radio-box__main__inner">
+    <div class="c-radio-box__item">
+      <div class="c-radio-box__item__inner">
         <slot />
-        <p class="c-radio-box__main__txt" v-if="label">{{ label }}</p>
+        <p class="c-radio-box__item__txt" v-if="label">{{ label }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, PropType, ref } from 'vue';
 import useFileReader from '@/composables/useFileReader';
 import { CustomData } from '@/store';
+import { computed, defineComponent, inject, PropType, ref } from 'vue';
 
 type UpdateCustomData = (T: CustomData) => void;
 
@@ -120,20 +120,20 @@ export default defineComponent({
   display: inline-block;
   cursor: pointer;
   &--short {
-    .c-radio-box__main {
+    .c-radio-box__item {
       min-width: 60px;
       height: 70px;
     }
   }
   &__input {
-    &:checked + .c-radio-box__main {
+    &:checked + .c-radio-box__item {
       color: var(--subColor);
       border-color: transparent;
       outline-color: var(--subColor);
       outline-offset: -1px;
     }
   }
-  &__main {
+  &__item {
     display: block;
     background-color: var(--backColor);
     border: 1px dashed var(--iconColor);
@@ -143,6 +143,7 @@ export default defineComponent({
     min-width: 80px;
     height: 90px;
     padding: 8px 0;
+    backface-visibility: hidden;
     transition: 0.4s $easeOutQuart;
     transition-property: color, border, outline, outline-offset;
     &__inner {

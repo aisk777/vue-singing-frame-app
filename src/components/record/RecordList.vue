@@ -21,10 +21,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, watchEffect, PropType } from 'vue';
-import draggable from 'vuedraggable';
-import { RecordItem } from '@/store';
 import RecordListItem from '@/components/record/RecordListItem.vue';
+import { RecordItem } from '@/store';
+import { defineComponent, PropType, ref, watch, watchEffect } from 'vue';
+import draggable from 'vuedraggable';
 
 export default defineComponent({
   name: 'RecordList',

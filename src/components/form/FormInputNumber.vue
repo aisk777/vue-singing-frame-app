@@ -26,9 +26,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import arrowUp from '@/assets/img/icon/arrow_up.svg';
 import arrowDown from '@/assets/img/icon/arrow_down.svg';
+import arrowUp from '@/assets/img/icon/arrow_up.svg';
+import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'FormInputNumber',

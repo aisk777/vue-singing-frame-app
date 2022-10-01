@@ -1,7 +1,7 @@
 <template>
   <li class="form__row">
     <h2 class="form__ttl">{{ title }}</h2>
-    <div class="form__box"><slot /></div>
+    <div class="form__wrap"><slot /></div>
   </li>
 </template>
 
@@ -34,9 +34,10 @@ export default defineComponent({
     display: flex;
     padding: 24px 0;
   }
-  &__box {
+  &__wrap {
     border-left: 1px dashed var(--lineColor);
     padding-left: 32px;
+    width: 100%;
   }
 }
 </style>

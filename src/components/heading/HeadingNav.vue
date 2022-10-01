@@ -28,11 +28,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, inject } from 'vue';
-import { key } from '@/background/_ipcBrowser';
-import iconLineSingle from '@/assets/img/icon/icon_line-single.svg';
 import iconLineDouble from '@/assets/img/icon/icon_line-double.svg';
+import iconLineSingle from '@/assets/img/icon/icon_line-single.svg';
 import iconStart from '@/assets/img/icon/icon_start.svg';
+import { key } from '@/background/_ipcBrowser';
+import { defineComponent, inject, ref } from 'vue';
 
 export default defineComponent({
   name: 'HeadingNav',

@@ -1,11 +1,10 @@
-import { createApp } from 'vue';
-import App from './App.vue';
-import store from '../store';
-
-import { key } from '@/background/_ipcDatastore';
-
 // 共通のスタイルを読み込む
 import '@/assets/scss/style.scss';
+
+import { key } from '@/background/_ipcDatastore';
+import { createApp } from 'vue';
+import store from '../store';
+import App from './App.vue';
 
 // Appを作成
 const app = createApp(App);

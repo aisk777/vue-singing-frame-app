@@ -12,8 +12,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
 import arrowBottom from '@/assets/img/icon/arrow_bottom.svg';
+import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'FormInputSelect',

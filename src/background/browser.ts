@@ -1,7 +1,7 @@
 import { app, BrowserWindow, screen } from 'electron';
-import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import path from 'path';
+import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import db from './datastore';
 import store from './store';
 

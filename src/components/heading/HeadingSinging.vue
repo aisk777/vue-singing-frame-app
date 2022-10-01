@@ -27,12 +27,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, inject } from 'vue';
-import { useStore } from 'vuex';
-import { State as StoreState } from '@/store';
-import { key } from '@/background/_ipcDatastore';
-import iconDrop from '@/assets/img/icon/arrow_drop.svg';
 import txtDrop from '@/assets/img/common/txt_drop.svg';
+import iconDrop from '@/assets/img/icon/arrow_drop.svg';
+import { key } from '@/background/_ipcDatastore';
+import { State as StoreState } from '@/store';
+import { computed, defineComponent, inject } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'HeadingSinging',

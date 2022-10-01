@@ -14,9 +14,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, PropType } from 'vue';
 import useScrollName from '@/composables/useScrollName';
 import { RecordItem } from '@/store';
+import { computed, defineComponent, PropType, ref } from 'vue';
 import SetList from './SetList.vue';
 
 export default defineComponent({

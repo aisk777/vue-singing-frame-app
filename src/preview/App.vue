@@ -3,9 +3,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
-import { useStore } from 'vuex';
 import { State as StoreState } from '@/store';
+import { computed, defineComponent } from 'vue';
+import { useStore } from 'vuex';
 
 import Default from './Default.vue';
 

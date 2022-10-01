@@ -5,8 +5,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from 'vue';
 import { RecordItem } from '@/store';
+import { computed, defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   name: 'SetListItem',

@@ -59,25 +59,29 @@
         <div class="form__block">
           <FormListTheme v-model="formData.theme" :custom="formData.custom" />
         </div>
+        <div class="form__block">
+          <FormBox />
+        </div>
       </FormBlock>
     </ul>
   </main>
 </template>
 
 <script lang="ts">
+import iconList from '@/assets/img/icon/icon_list.svg';
+import iconMain from '@/assets/img/icon/icon_main.svg';
+import FormBlock from '@/components/form/FormBlock.vue';
+import FormBox from '@/components/form/FormBox.vue';
+import FormInputNumber from '@/components/form/FormInputNumber.vue';
+import FormInputSelect from '@/components/form/FormInputSelect.vue';
+import FormListStyle from '@/components/form/FormListStyle.vue';
+import FormListTheme from '@/components/form/FormListTheme.vue';
+import FormNote from '@/components/form/FormNote.vue';
+import FormSubTitle from '@/components/form/FormSubTitle.vue';
+import HeadingTitle from '@/components/heading/HeadingTitle.vue';
+import { CustomData, State as StoreState } from '@/store';
 import { computed, defineComponent, provide, ref, watch } from 'vue';
 import { useStore } from 'vuex';
-import { CustomData, State as StoreState } from '@/store';
-import HeadingTitle from '@/components/heading/HeadingTitle.vue';
-import FormBlock from '@/components/form/FormBlock.vue';
-import FormSubTitle from '@/components/form/FormSubTitle.vue';
-import FormInputSelect from '@/components/form/FormInputSelect.vue';
-import FormInputNumber from '@/components/form/FormInputNumber.vue';
-import FormListStyle from '@/components/form/FormListStyle.vue';
-import FormNote from '@/components/form/FormNote.vue';
-import FormListTheme from '@/components/form/FormListTheme.vue';
-import iconMain from '@/assets/img/icon/icon_main.svg';
-import iconList from '@/assets/img/icon/icon_list.svg';
 
 interface FontData {
   family: string;
@@ -89,6 +93,7 @@ interface FontData {
 export default defineComponent({
   name: 'CustomizeView',
   components: {
+    FormBox,
     HeadingTitle,
     FormNote,
     FormListStyle,
@@ -176,7 +181,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .customize {
   padding: 48px 32px 64px;
 }
@@ -191,8 +196,8 @@ export default defineComponent({
     gap: 24px;
   }
   &__item {
-    display: flex;
     align-items: center;
+    display: flex;
     gap: 16px;
     &__txt {
       font-size: 16px;
