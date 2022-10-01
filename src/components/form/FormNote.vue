@@ -1,5 +1,5 @@
 <template>
-  <ul class="form__note">
+  <ul class="form-note">
     <li v-for="(item, i) in list" :key="i">{{ item }}</li>
   </ul>
 </template>
@@ -19,7 +19,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.form__note {
+.form-note {
   color: var(--primaryColor);
   font-size: 12px;
   letter-spacing: 0.05em;

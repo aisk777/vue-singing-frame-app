@@ -1,7 +1,7 @@
 <template>
-  <li class="form__row">
-    <h2 class="form__ttl">{{ title }}</h2>
-    <div class="form__wrap"><slot /></div>
+  <li class="form-row">
+    <h2 class="form-row__ttl">{{ title }}</h2>
+    <div class="form-row__block"><slot /></div>
   </li>
 </template>
 
@@ -9,7 +9,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'FormBlock',
+  name: 'FormRow',
   props: {
     title: {
       type: String,
@@ -20,7 +20,10 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.form {
+.form-row {
+  border-bottom: 1px solid var(--lineColor);
+  display: flex;
+  padding: 24px 0;
   &__ttl {
     width: 160px;
     font-size: 16px;
@@ -29,12 +32,7 @@ export default defineComponent({
     padding-right: 32px;
     flex-shrink: 0;
   }
-  &__row {
-    border-bottom: 1px solid var(--lineColor);
-    display: flex;
-    padding: 24px 0;
-  }
-  &__wrap {
+  &__block {
     border-left: 1px dashed var(--lineColor);
     padding-left: 32px;
     width: 100%;

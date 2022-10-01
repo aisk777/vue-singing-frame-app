@@ -82,10 +82,10 @@ export const defaultCustomData: Customize = {
     palette: []
   },
   color: {
-    base: { hex: '#fff', opacity: 1 },
-    text: { hex: '#333', opacity: 1 },
-    sub: { hex: '#31b6a0', opacity: 1 },
-    accent: { hex: '#ef8bb6', opacity: 1 }
+    base: { hex: '#ffffff', opacity: 100 },
+    text: { hex: '#333333', opacity: 100 },
+    sub: { hex: '#31b6a0', opacity: 100 },
+    accent: { hex: '#ef8bb6', opacity: 100 }
   },
   check_round: true,
   check_border: true,

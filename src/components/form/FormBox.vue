@@ -1,5 +1,5 @@
 <template>
-  <div class="form__box"><slot /></div>
+  <div class="form-box"><slot /></div>
 </template>
 
 <script lang="ts">
@@ -11,10 +11,13 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.form__box {
+.form-box {
   background-color: var(--backColor);
   border: 1px solid var(--borderColor);
   border-radius: 4px;
-  padding: 24px;
+  padding: 0 24px;
+  > :deep(* + *) {
+    border-top: 1px solid var(--borderColor);
+  }
 }
 </style>
